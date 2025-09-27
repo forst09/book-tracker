@@ -18,7 +18,7 @@
   align-items: center;
   gap: 32px;
   flex-wrap: wrap;
-  max-width: 1202px;
+  max-width: 1184px;
   width: 100%;
   padding: 16px;
   height: 100%;
