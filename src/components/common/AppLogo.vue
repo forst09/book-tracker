@@ -16,7 +16,7 @@ const props = defineProps({
     type: String,
     required: false,
     default: 'gradient',
-    validator: (value) => ['gradient', 'pink', 'green'].includes(value),
+    validator: (value) => ['gradient', 'violet', 'cyan'].includes(value),
   },
   logoSize: {
     type: String,
@@ -53,9 +53,9 @@ const props = defineProps({
   gap: 12px;
   text-decoration: unset;
 
-  &--color-pink {
+  &--color-violet {
     --logo-bg: var(--pink);
-    --logo-icon: var(--pirple);
+    --logo-stroke: var(--color-violet-52);
   }
 
   &--size-l {
@@ -76,7 +76,7 @@ const props = defineProps({
   }
 
   &__icon-icon {
-    stroke: var(--logo-icon);
+    stroke: var(--logo-stroke);
     stroke-width: 2.6px;
   }
 
