@@ -104,7 +104,7 @@ const formValues = computed(() => {
         <template #btn>
           <ButtonIcon
             :btn-size="'l'"
-            :btn-color="'white'"
+            :btn-color="'transparent'"
             :btn-tag="'RouterLink'"
             :btn-text="'Войти в аккаунт'"
             :btn-icon="ArrowIcon"
@@ -125,6 +125,13 @@ const formValues = computed(() => {
 
 <style lang="scss" module>
 .registration {
+  --auth-img-gradient: linear-gradient(
+    0,
+    var(--color-violet-3220, rgba(89, 22, 139, 0.2)) 0%,
+    var(--color-violet-320, rgba(89, 22, 139, 0)) 100%
+  );
+  --auth-img-ar: 560 / 320;
+
   &__policy-link {
     font-size: 16px;
     line-height: normal;

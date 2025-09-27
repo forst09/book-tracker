@@ -8,9 +8,11 @@
   </main>
 </template>
 
-<style module lang="scss">
+<style lang="scss">
 @use './assets/styles/index.scss';
+</style>
 
+<style module lang="scss">
 .main {
   display: flex;
   flex-direction: column;

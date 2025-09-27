@@ -58,6 +58,11 @@ const props = defineProps({
     --logo-stroke: var(--color-violet-52);
   }
 
+  &--color-cyan {
+    --logo-bg: var(--cyan-light);
+    --logo-stroke: var(--color-cyan-29);
+  }
+
   &--size-l {
     --logo-top-fs: 28px;
     --logo-top-lh: 1.3;

@@ -12,7 +12,7 @@ const props = defineProps({
   btnColor: {
     type: String,
     required: true,
-    validator: (value) => ['violet', 'cyan', 'white', 'cyan-light'].includes(value),
+    validator: (value) => ['violet', 'cyan', 'transparent', 'cyan-light'].includes(value),
   },
   btnSize: {
     type: String,
@@ -24,6 +24,16 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  isContentReverse: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+  iconClass: {
+    type: String,
+    required: false,
+    default: null,
+  },
 })
 </script>
 
@@ -34,9 +44,10 @@ const props = defineProps({
       $style['btn-icon'],
       $style[`btn-icon--size-${props.btnSize}`],
       $style[`btn-icon--color-${props.btnColor}`],
+      props.isContentReverse && $style['btn-icon--reverse'],
     ]"
   >
-    <component :is="props.btnIcon" :class="$style['btn-icon__icon']" />
+    <component :is="props.btnIcon" :class="[$style['btn-icon__icon'], props.iconClass]" />
     <span>{{ props.btnText }}</span>
   </component>
 </template>
@@ -61,6 +72,10 @@ const props = defineProps({
 
   @include hover {
     opacity: 0.8;
+  }
+
+  &--reverse {
+    flex-direction: row-reverse;
   }
 
   &--size-m {
@@ -93,9 +108,19 @@ const props = defineProps({
     --btn-icon-border: unset;
   }
 
-  &--color-white {
+  &--color-cyan {
+    --btn-icon-color: var(--white);
+    --btn-icon-bg: linear-gradient(
+      90deg,
+      var(--color-cyan-37, #00bba7) 0%,
+      var(--color-cyan-29, #009689) 100%
+    );
+    --btn-icon-border: unset;
+  }
+
+  &--color-transparent {
     --btn-icon-color: var(--gray2);
-    --btn-icon-bg: var(--white2);
+    --btn-icon-bg: transparent;
     --btn-icon-border: 1px solid var(--stroke);
     --btn-icon-stroke: var(--gray2);
   }

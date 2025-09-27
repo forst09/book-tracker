@@ -53,7 +53,11 @@ const props = defineProps({
         <p>{{ props.descrText }}</p>
       </div>
     </div>
-    <ListDefault :list-arr="props.listArr" :dot-color="props.mainColor" />
+    <ListDefault
+      v-if="props.listArr && props.listArr.length > 0"
+      :list-arr="props.listArr"
+      :dot-color="props.mainColor"
+    />
     <div :class="['img', 'img--cover', $style['auth-info__img']]" aria-hidden="true">
       <img :src="props.imgSrc" :class="['img__img', $style['auth-info__img-img']]" />
     </div>
@@ -81,7 +85,7 @@ const props = defineProps({
 
   &__img {
     position: relative;
-    aspect-ratio: var(--aith-img-ar);
+    aspect-ratio: var(--auth-img-ar);
     border-radius: 16px;
     background: #f1f5f9;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
@@ -93,11 +97,7 @@ const props = defineProps({
       inset: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(
-        0,
-        var(--color-violet-3220, rgba(89, 22, 139, 0.2)) 0%,
-        var(--color-violet-320, rgba(89, 22, 139, 0)) 100%
-      );
+      background: var(--auth-img-gradient);
     }
   }
 }
