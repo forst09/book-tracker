@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { supabase } from '@/lib/supabaseClient'
 
 import LoginIcon from '@/assets/icons/login.svg'
 import ArrowIcon from '@/assets/icons/arrow.svg'
@@ -23,15 +24,67 @@ const formOtherAction = 'Нет аккаунта?'
 
 // form values
 const emailValue = ref('')
+const emailError = ref(null)
 
 const passwordValue = ref('')
+const passwordError = ref(null)
 
-const formValues = computed(() => {
+const supabaseError = ref(null)
+
+const formErrors = computed(() => {
   return {
-    email: emailValue.value,
-    password: passwordValue.value,
+    ...(passwordError.value ? { passwordError: passwordError.value } : {}),
+    ...(emailError.value ? { emailError: emailError.value } : {}),
   }
 })
+
+const validateFormValues = () => {
+  if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailValue.value)) {
+    emailError.value = 'Некорректный email'
+  } else {
+    emailError.value = null
+  }
+
+  if (passwordValue.value.length < 6) {
+    passwordError.value = 'Пароль должен иметь минимум 6 символов'
+  } else {
+    passwordError.value = null
+  }
+}
+
+// sign in new user
+const isLoading = ref(false)
+
+const signInUser = async (email, password) => {
+  isLoading.value = true
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+
+    console.log(data)
+    console.log(error)
+    if (error) {
+      supabaseError.value = error.message
+    } else {
+      supabaseError.value = null
+    }
+  } catch (error) {
+    supabaseError.value = error
+  } finally {
+    isLoading.value = false
+  }
+}
+
+// submit sign in form
+const submitForm = () => {
+  validateFormValues()
+
+  if (Object.keys(formErrors.value).length === 0) {
+    signInUser(emailValue.value, passwordValue.value)
+  }
+}
 </script>
 
 <template>
@@ -49,6 +102,9 @@ const formValues = computed(() => {
         :title-text="formTitle"
         :descr-text="formDescr"
         :other-action-text="formOtherAction"
+        :is-loading="isLoading"
+        :form-error="supabaseError"
+        @submit-form="submitForm"
       >
         <template #form>
           <FormInput
@@ -58,6 +114,7 @@ const formValues = computed(() => {
             :input-placeholder="'example@email.com'"
             :is-input-required="true"
             :input-type="'email'"
+            :error-text="emailError"
           />
           <FormInput
             v-model="passwordValue"
@@ -66,6 +123,7 @@ const formValues = computed(() => {
             :input-placeholder="'Введите пароль'"
             :is-input-required="true"
             :input-type="'password'"
+            :error-text="passwordError"
           />
           <ButtonIcon :btn-text="'Войти'" :btn-color="'cyan'" :btn-icon="LoginIcon" type="submit" />
         </template>

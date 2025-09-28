@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { supabase } from '@/lib/supabaseClient'
 
 import UserIcon from '@/assets/icons/user.svg'
@@ -42,14 +42,6 @@ const repeatPassword = ref('')
 const repeatPasswordError = ref(null)
 
 const supabaseError = ref(null)
-
-const formValues = computed(() => {
-  return {
-    name: nameValue.value,
-    email: emailValue.value,
-    password: passwordValue.value,
-  }
-})
 
 const formErrors = computed(() => {
   return {
