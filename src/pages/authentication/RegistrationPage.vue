@@ -81,12 +81,17 @@ const validateFormValues = () => {
 // sign up new user
 const isLoading = ref(false)
 
-const signUpNewUser = async (email, password) => {
+const signUpNewUser = async (name, email, password) => {
   isLoading.value = true
   try {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+          name,
+        },
+      },
     })
 
     console.log(data)
@@ -108,7 +113,7 @@ const submitForm = () => {
   validateFormValues()
 
   if (Object.keys(formErrors.value).length === 0) {
-    signUpNewUser(emailValue.value, passwordValue.value)
+    signUpNewUser(nameValue.value, emailValue.value, passwordValue.value)
   }
 }
 </script>

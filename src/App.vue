@@ -1,25 +1,23 @@
 <script setup>
-// alert('not hhe')
 import { ref, onMounted } from 'vue'
 import { supabase } from './lib/supabaseClient'
+import router from './router'
+import { useAuthStore } from './stores/authStore'
 
-const instruments = ref([])
-async function getInstruments() {
-  const { data } = await supabase.from('users').select()
-  instruments.value = data
-}
-onMounted(() => {
-  getInstruments()
-})
+// async function signOut() {
+//   const { error } = await supabase.auth.signOut()
+// }
+
+// signOut()
+
+const authStore = useAuthStore()
+
+authStore.getCurrentUser()
 </script>
 
 <template>
   <main :class="$style.main">
     <RouterView />
-
-    <!-- <ul>
-      <li v-for="instrument in instruments" :key="instrument.id">{{ instrument.name }}</li>
-    </ul> -->
   </main>
 </template>
 
