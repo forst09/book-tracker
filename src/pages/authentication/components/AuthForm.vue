@@ -1,4 +1,6 @@
 <script setup>
+import LoaderDefault from '@/components/common/loaders/LoaderDefault.vue'
+
 const props = defineProps({
   titleText: {
     type: String,
@@ -17,7 +19,22 @@ const props = defineProps({
     required: false,
     default: false,
   },
+  formError: {
+    type: [String, null],
+    required: true,
+  },
+  isLoading: {
+    type: Boolean,
+    required: true,
+  },
+  loaderComponent: {
+    type: Object,
+    required: false,
+    default: LoaderDefault,
+  },
 })
+
+const emits = defineEmits(['submitForm'])
 </script>
 
 <template>
@@ -28,13 +45,13 @@ const props = defineProps({
         <p>{{ props.descrText }}</p>
       </div>
     </div>
-    <form :class="$style['auth-form__form']">
+    <form :class="$style['auth-form__form']" @submit.prevent="emits('submitForm')">
       <div :class="$style['auth-form__form-wrap']">
         <slot name="form" />
+        <span v-if="props.formError" :class="$style['auth-form__error']">
+          {{ props.formError }}
+        </span>
       </div>
-      <!-- <div :class="$style['auth-form__form-submit']">
-        <slot name="submit" />
-      </div> -->
     </form>
     <div :class="$style['auth-form__other']">
       <div :class="$style['auth-form__other-divider']">
@@ -46,6 +63,9 @@ const props = defineProps({
     <div v-if="props.isPolicyInclude" :class="$style['auth-form__policy']">
       <slot name="policy" />
     </div>
+    <Transition name="opacity">
+      <component v-if="props.isLoading" :is="props.loaderComponent" />
+    </Transition>
   </div>
 </template>
 
@@ -59,6 +79,7 @@ const props = defineProps({
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(4px);
+  overflow: hidden;
 
   &__title {
     margin-bottom: 8px;
@@ -113,6 +134,11 @@ const props = defineProps({
     line-height: 1.33;
     color: var(--gray3);
     text-align: center;
+  }
+
+  &__error {
+    font-size: 12px;
+    color: red;
   }
 }
 </style>

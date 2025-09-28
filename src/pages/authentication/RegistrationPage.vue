@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
+import { supabase } from '@/lib/supabaseClient'
 
 import UserIcon from '@/assets/icons/user.svg'
 import ArrowIcon from '@/assets/icons/arrow.svg'
@@ -9,6 +10,7 @@ import BaseAuth from './BaseAuth.vue'
 import AuthForm from './components/AuthForm.vue'
 import AuthInfo from './components/AuthInfo.vue'
 import ButtonIcon from '@/components/ui/buttons/ButtonIcon.vue'
+import LoaderDefault from '@/components/common/loaders/LoaderDefault.vue'
 
 // auth info
 const logoDescr = 'Начните свой читательский путь'
@@ -28,12 +30,18 @@ const formOtherAction = 'Уже есть аккаунт?'
 
 // form values
 const nameValue = ref('')
+const nameError = ref(null)
 
 const emailValue = ref('')
+const emailError = ref(null)
 
 const passwordValue = ref('')
+const passwordError = ref(null)
 
 const repeatPassword = ref('')
+const repeatPasswordError = ref(null)
+
+const supabaseError = ref(null)
 
 const formValues = computed(() => {
   return {
@@ -42,6 +50,75 @@ const formValues = computed(() => {
     password: passwordValue.value,
   }
 })
+
+const formErrors = computed(() => {
+  return {
+    ...(nameError.value ? { nameError: nameError.value } : {}),
+    ...(passwordError.value ? { passwordError: passwordError.value } : {}),
+    ...(emailError.value ? { emailError: emailError.value } : {}),
+    ...(repeatPasswordError.value ? { repeatPasswordError: repeatPasswordError.value } : {}),
+  }
+})
+
+const validateFormValues = () => {
+  if (nameValue.value.length < 3) {
+    nameError.value = 'Имя должно иметь минимум 3 символа'
+  } else {
+    nameError.value = null
+  }
+
+  if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailValue.value)) {
+    emailError.value = 'Некорректный email'
+  } else {
+    emailError.value = null
+  }
+
+  if (passwordValue.value.length < 6) {
+    passwordError.value = 'Пароль должен иметь минимум 6 символов'
+  } else {
+    passwordError.value = null
+  }
+
+  if (passwordValue.value !== repeatPassword.value) {
+    repeatPasswordError.value = 'Пароли не совпадают'
+  } else {
+    repeatPasswordError.value = null
+  }
+}
+
+// sign up new user
+const isLoading = ref(false)
+
+const signUpNewUser = async (email, password) => {
+  isLoading.value = true
+  try {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+    })
+
+    console.log(data)
+    console.log(error)
+    if (error) {
+      supabaseError.value = error.message
+    } else {
+      supabaseError.value = null
+    }
+  } catch (error) {
+    supabaseError.value = error
+  } finally {
+    isLoading.value = false
+  }
+}
+
+// submit sign in form
+const submitForm = () => {
+  validateFormValues()
+
+  if (Object.keys(formErrors.value).length === 0) {
+    signUpNewUser(emailValue.value, passwordValue.value)
+  }
+}
 </script>
 
 <template>
@@ -61,6 +138,10 @@ const formValues = computed(() => {
         :descr-text="formDescr"
         :is-policy-include="true"
         :other-action-text="formOtherAction"
+        :form-error="supabaseError"
+        :is-loading="isLoading"
+        :class="$style.registration__form"
+        @submit-form="submitForm"
       >
         <template #form>
           <FormInput
@@ -69,6 +150,7 @@ const formValues = computed(() => {
             :input-label="'Имя'"
             :input-placeholder="'Ваше имя'"
             :is-input-required="true"
+            :error-text="nameError"
           />
           <FormInput
             v-model="emailValue"
@@ -77,6 +159,7 @@ const formValues = computed(() => {
             :input-placeholder="'example@email.com'"
             :is-input-required="true"
             :input-type="'email'"
+            :error-text="emailError"
           />
           <FormInput
             v-model="passwordValue"
@@ -85,6 +168,7 @@ const formValues = computed(() => {
             :input-placeholder="'Минимум 6 символов'"
             :is-input-required="true"
             :input-type="'password'"
+            :error-text="passwordError"
           />
           <FormInput
             v-model="repeatPassword"
@@ -93,6 +177,7 @@ const formValues = computed(() => {
             :input-placeholder="'Повторите пароль'"
             :is-input-required="true"
             :input-type="'password'"
+            :error-text="repeatPasswordError"
           />
           <ButtonIcon
             :btn-text="'Создать аккаунт'"
@@ -131,6 +216,10 @@ const formValues = computed(() => {
     var(--color-violet-320, rgba(89, 22, 139, 0)) 100%
   );
   --auth-img-ar: 560 / 320;
+
+  &__form {
+    position: relative;
+  }
 
   &__policy-link {
     font-size: 16px;

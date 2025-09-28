@@ -90,6 +90,10 @@ const inputEvent = (e) => {
     line-height: normal;
     transition: border-color 0.3s ease;
 
+    &--error {
+      border-color: red;
+    }
+
     @include hover {
       border-color: var(--black);
     }
@@ -109,7 +113,7 @@ const inputEvent = (e) => {
 
   &__error {
     margin-top: 4px;
-    font-size: 8px;
+    font-size: 12px;
     color: red;
   }
 }
