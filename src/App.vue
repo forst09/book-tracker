@@ -1,9 +1,23 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { supabase } from './lib/supabaseClient'
 import router from './router'
 import { useAuthStore } from './stores/authStore'
 import LoaderDefault from './components/common/loaders/LoaderDefault.vue'
+import { useRoute } from 'vue-router'
+import defaultLayout from './layouts/default.vue'
+import authLayout from './layouts/authLayout.vue'
+
+const route = useRoute()
+
+const layoutMap = {
+  defaultLayout: defaultLayout,
+  authLayout: authLayout,
+}
+
+const layoutComponent = computed(() => {
+  return layoutMap[route.meta.layout] || defaultLayout
+})
 
 // async function signOut() {
 //   const { error } = await supabase.auth.signOut()
@@ -15,9 +29,9 @@ import LoaderDefault from './components/common/loaders/LoaderDefault.vue'
 </script>
 
 <template>
-  <main :class="$style.main">
+  <component :is="layoutComponent" :page-title="route.meta.title" :class="$style.main">
     <RouterView />
-  </main>
+  </component>
 </template>
 
 <style lang="scss">

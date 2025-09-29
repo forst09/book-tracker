@@ -10,17 +10,27 @@ const router = createRouter({
     {
       path: '/login',
       component: LoginPage,
-      name: 'login'
+      name: 'login',
+      meta: {
+        layout: 'authLayout'
+      }
     },
     {
       path: '/registration',
       component: RegistrationPage,
-      name: 'registration'
+      name: 'registration',
+      meta: {
+        layout: 'authLayout'
+      }
     },
     {
       path: '/',
       component: IndexPage,
-      name: 'index'
+      name: 'index',
+      meta: {
+        layout: 'defaultLayout',
+        title: 'Главная'
+      }
     }
   ],
 });

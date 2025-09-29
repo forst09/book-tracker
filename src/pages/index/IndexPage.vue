@@ -1,3 +1,3 @@
 <template>
-  <h1>Главная</h1>
+  <span>hehe</span>
 </template>
