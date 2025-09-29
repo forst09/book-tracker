@@ -36,6 +36,11 @@ router.beforeEach(async (to, from) => {
       name: 'login'
     }
   }
+  if (authStore.isUserAuth && (to.name === 'login' || to.name === 'registration') && to.name !== 'index') {
+    return {
+      name: 'index'
+    }
+  }
 })
 
 export default router

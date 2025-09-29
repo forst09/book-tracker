@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { computed, reactive } from "vue";
+import { computed, reactive, ref } from "vue";
 import { supabase } from "@/lib/supabaseClient";
 
 export const useAuthStore = defineStore('user', () => {
@@ -12,7 +12,10 @@ export const useAuthStore = defineStore('user', () => {
         return currentUser.name ? true : false
     })
 
+    const isUserLoading = ref(false);
+
     const getCurrentUser = async () => {
+        isUserLoading.value = true
         try {
             const {
                 data: { user },
@@ -32,7 +35,10 @@ export const useAuthStore = defineStore('user', () => {
         } catch (error) {
             console.error('error from user', error)
         }
+        finally {
+            isUserLoading.value = false
+        }
     }
 
-    return { currentUser, isUserAuth, getCurrentUser }
+    return { currentUser, isUserAuth, isUserLoading, getCurrentUser }
 })

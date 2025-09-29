@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import { supabase } from './lib/supabaseClient'
 import router from './router'
 import { useAuthStore } from './stores/authStore'
+import LoaderDefault from './components/common/loaders/LoaderDefault.vue'
 
 // async function signOut() {
 //   const { error } = await supabase.auth.signOut()
@@ -10,9 +11,7 @@ import { useAuthStore } from './stores/authStore'
 
 // signOut()
 
-const authStore = useAuthStore()
-
-authStore.getCurrentUser()
+// const authStore = useAuthStore()
 </script>
 
 <template>
