@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import { supabase } from '@/lib/supabaseClient'
 
-import UserIcon from '@/assets/icons/user.svg'
+import UserIcon from '@/assets/icons/create-user.svg'
 import ArrowIcon from '@/assets/icons/arrow.svg'
 
 import FormInput from '@/components/form/FormInput.vue'
@@ -11,6 +11,8 @@ import AuthForm from './components/AuthForm.vue'
 import AuthInfo from './components/AuthInfo.vue'
 import ButtonIcon from '@/components/ui/buttons/ButtonIcon.vue'
 import LoaderDefault from '@/components/common/loaders/LoaderDefault.vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/authStore'
 
 // auth info
 const logoDescr = 'Начните свой читательский путь'
@@ -80,6 +82,8 @@ const validateFormValues = () => {
 
 // sign up new user
 const isLoading = ref(false)
+const router = useRouter()
+const authStore = useAuthStore()
 
 const signUpNewUser = async (name, email, password) => {
   isLoading.value = true
@@ -100,6 +104,10 @@ const signUpNewUser = async (name, email, password) => {
       supabaseError.value = error.message
     } else {
       supabaseError.value = null
+
+      authStore.setUserData(email, name)
+
+      router.push({ name: 'index' })
     }
   } catch (error) {
     supabaseError.value = error

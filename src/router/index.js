@@ -24,6 +24,22 @@ const router = createRouter({
       }
     },
     {
+      path: '/library',
+      component: RegistrationPage,
+      name: 'library',
+      meta: {
+        layout: 'defaultLayout'
+      }
+    },
+    {
+      path: '/add-book',
+      component: RegistrationPage,
+      name: 'add-book',
+      meta: {
+        layout: 'defaultLayout'
+      }
+    },
+    {
       path: '/',
       component: IndexPage,
       name: 'index',

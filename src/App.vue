@@ -19,12 +19,6 @@ const layoutComponent = computed(() => {
   return layoutMap[route.meta.layout] || defaultLayout
 })
 
-// async function signOut() {
-//   const { error } = await supabase.auth.signOut()
-// }
-
-// signOut()
-
 // const authStore = useAuthStore()
 </script>
 
@@ -49,9 +43,9 @@ const layoutComponent = computed(() => {
 </style>
 
 <style module lang="scss">
-.main {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
+// .main {
+//   display: flex;
+//   flex-direction: column;
+//   min-height: 100vh;
+// }
 </style>

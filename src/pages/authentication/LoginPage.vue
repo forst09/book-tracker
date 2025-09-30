@@ -10,6 +10,8 @@ import BaseAuth from './BaseAuth.vue'
 import AuthForm from './components/AuthForm.vue'
 import AuthInfo from './components/AuthInfo.vue'
 import ButtonIcon from '@/components/ui/buttons/ButtonIcon.vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/authStore'
 
 // auth info
 const logoDescr = 'Ваш персональный трекер чтения'
@@ -54,6 +56,8 @@ const validateFormValues = () => {
 
 // sign in new user
 const isLoading = ref(false)
+const router = useRouter()
+const authStore = useAuthStore()
 
 const signInUser = async (email, password) => {
   isLoading.value = true
@@ -69,6 +73,10 @@ const signInUser = async (email, password) => {
       supabaseError.value = error.message
     } else {
       supabaseError.value = null
+
+      authStore.setUserData(data.user.email, data.user.user_metadata.name)
+
+      router.push({ name: 'index' })
     }
   } catch (error) {
     supabaseError.value = error

@@ -1,5 +1,5 @@
 <script setup>
-import AppLogo from '@/components/common/AppLogo.vue'
+import AppAside from '@/components/common/AppAside.vue'
 
 const props = defineProps({
   pageTitle: {
@@ -10,9 +10,7 @@ const props = defineProps({
 </script>
 <template>
   <div :class="$style.layout">
-    <aside :class="$style.aside">
-      <AppLogo />
-    </aside>
+    <AppAside :class="$style.aside" />
     <main>
       <header :class="$style.header">
         <h1>{{ props.pageTitle }}</h1>
@@ -24,5 +22,10 @@ const props = defineProps({
 
 <style lang="scss" module>
 .layout {
+  display: flex;
+}
+
+.aside {
+  flex-shrink: 0;
 }
 </style>

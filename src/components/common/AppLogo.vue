@@ -63,26 +63,51 @@ const props = defineProps({
     --logo-stroke: var(--color-cyan-29);
   }
 
+  &--color-gradient {
+    --logo-bg: linear-gradient(
+      90deg,
+      var(--color-cyan-37, #00bba7) 0%,
+      var(--color-azure-58, #2b7fff) 100%
+    );
+    --logo-stroke: var(--white);
+  }
+
+  &--size-regular {
+    --logo-top-fs: 19px;
+    --logo-top-lh: 1.49;
+    --logo-bottom-fs: 14px;
+    --logo-bottom-lh: 1.46;
+    --logo-icon-width: 40px;
+    --logo-icon-br: 14px;
+    --logo-icon-stroke-width: 2px;
+    --logo-icon-svg-size: 24px;
+  }
+
   &--size-l {
     --logo-top-fs: 28px;
     --logo-top-lh: 1.3;
     --logo-bottom-fs: 17px;
     --logo-bottom-lh: 1.65;
+    --logo-icon-width: 56px;
+    --logo-icon-br: 16px;
+    --logo-icon-stroke-width: 2.6px;
   }
 
   &__icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 56px;
+    width: var(--logo-icon-width);
     aspect-ratio: 1;
-    border-radius: 16px;
-    background-color: var(--logo-bg);
+    border-radius: var(--logo-icon-br);
+    background: var(--logo-bg);
   }
 
   &__icon-icon {
+    width: var(--logo-icon-svg-size);
+    height: var(--logo-icon-svg-size);
     stroke: var(--logo-stroke);
-    stroke-width: 2.6px;
+    stroke-width: var(--logo-icon-stroke-width);
   }
 
   &__text {

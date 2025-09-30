@@ -26,8 +26,7 @@ export const useAuthStore = defineStore('user', () => {
                 currentUser.name = user.user_metadata.name
             }
             else {
-                currentUser.email = undefined
-                currentUser.name = undefined
+                clearUser()
             }
 
             console.log('user', user)
@@ -40,5 +39,15 @@ export const useAuthStore = defineStore('user', () => {
         }
     }
 
-    return { currentUser, isUserAuth, isUserLoading, getCurrentUser }
+    const setUserData = (name, email) => {
+        currentUser.email = email;
+        currentUser.name = name;
+    }
+
+    const clearUser = () => {
+        currentUser.email = undefined;
+        currentUser.name = undefined;
+    }
+
+    return { currentUser, isUserAuth, isUserLoading, getCurrentUser, clearUser, setUserData }
 })
