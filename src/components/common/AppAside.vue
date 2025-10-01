@@ -1,6 +1,6 @@
 <script setup>
 import AppLogo from '@/components/common/AppLogo.vue'
-import UserPreview from '../auth/UserPreview.vue'
+import UserPreview from '../aside/UserPreview.vue'
 import { useAuthStore } from '@/stores/authStore'
 import { supabase } from '@/lib/supabaseClient'
 import { useRoute, useRouter } from 'vue-router'
@@ -8,6 +8,7 @@ import NavigationList from '../navigation/NavigationList.vue'
 import HomeIcon from '@/assets/icons/home.svg'
 import LibraryIcon from '@/assets/icons/library.svg'
 import PlusIcon from '@/assets/icons/plus.svg'
+import BooksGoal from '../aside/BooksGoal.vue'
 
 // sign out user
 const authStore = useAuthStore()
@@ -61,6 +62,9 @@ const navigationLinks = [
       />
     </div>
     <NavigationList :navigation-arr="navigationLinks" :class="$style.aside__item" />
+    <div :class="$style.aside__item">
+      <BooksGoal :books-total="20" :finished-books="2" />
+    </div>
   </aside>
 </template>
 

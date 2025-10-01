@@ -59,7 +59,6 @@ const props = defineProps({
       stroke: var(--color-cyan-29);
     }
 
-    .link__counter,
     .link__text {
       color: var(--color-cyan-29);
     }
