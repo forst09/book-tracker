@@ -11,7 +11,7 @@ const props = defineProps({
   progressColor: {
     type: String,
     required: false,
-    default: 'blue',
+    default: 'azure',
     validator: (value) => ['azure', 'cyan', 'violet'].includes(value),
   },
 })
@@ -27,9 +27,10 @@ const props = defineProps({
 
 <style lang="scss" module>
 .progress {
+  display: block;
   appearance: none;
   width: 100%;
-  height: var(--progress-height);
+  height: var(--progress-height, 6px);
   background-color: var(--progressbar-bg);
   border: none;
 
@@ -56,6 +57,15 @@ const props = defineProps({
       90deg,
       var(--color-cyan-37, #00bba7) 0%,
       var(--color-cyan-29, #009689) 100%
+    );
+  }
+
+  &--color-azure {
+    --progressbar-bg: var(--white2);
+    --progressbar-fill: linear-gradient(
+      90deg,
+      var(--color-azure-58, #2b7fff) 0%,
+      var(--color-azure-54, #155dfc) 100%
     );
   }
 }

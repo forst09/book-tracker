@@ -9,6 +9,7 @@ import HomeIcon from '@/assets/icons/home.svg'
 import LibraryIcon from '@/assets/icons/library.svg'
 import PlusIcon from '@/assets/icons/plus.svg'
 import BooksGoal from '../aside/BooksGoal.vue'
+import CurrentRead from '../aside/CurrentRead.vue'
 
 // sign out user
 const authStore = useAuthStore()
@@ -61,9 +62,18 @@ const navigationLinks = [
         @handle-logout-click="signOut"
       />
     </div>
-    <NavigationList :navigation-arr="navigationLinks" :class="$style.aside__item" />
+    <div :class="$style.aside__item">
+      <NavigationList :navigation-arr="navigationLinks" />
+    </div>
     <div :class="$style.aside__item">
       <BooksGoal :books-total="20" :finished-books="2" />
+    </div>
+    <div :class="$style.aside__item">
+      <CurrentRead
+        :book-name="'Полуночная библиотека'"
+        :book-author="'Мэтт Хейг'"
+        :progress-value="65"
+      />
     </div>
   </aside>
 </template>
