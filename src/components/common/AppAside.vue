@@ -10,6 +10,7 @@ import LibraryIcon from '@/assets/icons/library.svg'
 import PlusIcon from '@/assets/icons/plus.svg'
 import BooksGoal from '../aside/BooksGoal.vue'
 import CurrentRead from '../aside/CurrentRead.vue'
+import BookStatus from '../aside/BookStatus.vue'
 
 // sign out user
 const authStore = useAuthStore()
@@ -62,24 +63,34 @@ const navigationLinks = [
         @handle-logout-click="signOut"
       />
     </div>
-    <div :class="$style.aside__item">
-      <NavigationList :navigation-arr="navigationLinks" />
+    <div :class="$style.aside__wrap">
+      <div :class="$style.aside__item">
+        <NavigationList :navigation-arr="navigationLinks" />
+      </div>
+      <div :class="$style.aside__item">
+        <BooksGoal :books-total="20" :finished-books="2" />
+      </div>
+      <div :class="$style.aside__item">
+        <CurrentRead
+          :book-name="'Полуночная библиотека'"
+          :book-author="'Мэтт Хейг'"
+          :progress-value="65"
+        />
+      </div>
     </div>
-    <div :class="$style.aside__item">
-      <BooksGoal :books-total="20" :finished-books="2" />
-    </div>
-    <div :class="$style.aside__item">
-      <CurrentRead
-        :book-name="'Полуночная библиотека'"
-        :book-author="'Мэтт Хейг'"
-        :progress-value="65"
-      />
-    </div>
+    <BookStatus
+      :read-counter="2"
+      :reading-counter="1"
+      :planned-counter="1"
+      :class="$style.aside__counter"
+    />
   </aside>
 </template>
 
 <style lang="scss" module>
 .aside {
+  display: flex;
+  flex-direction: column;
   height: 100vh;
   overflow-y: auto;
   background-color: var(--white);
@@ -97,6 +108,10 @@ const navigationLinks = [
 
   &__item {
     padding: 16px;
+  }
+
+  &__counter {
+    margin-top: auto;
   }
 }
 </style>
