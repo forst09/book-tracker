@@ -5,6 +5,7 @@ import ButtonBig from '@/components/ui/buttons/ButtonBig.vue'
 import { useRouter } from 'vue-router'
 import IconPlus from '@/assets/icons/plus.svg'
 import IconLibrary from '@/assets/icons/library.svg'
+import ResentActivity from '@/components/cards/ResentActivity.vue'
 
 const router = useRouter()
 </script>
@@ -49,6 +50,25 @@ const router = useRouter()
               :icon-component="IconLibrary"
             />
           </div>
+          <div :class="$style.index__activities">
+            <h3 :class="$style.index__subtitle">Последние активности</h3>
+            <ul :class="$style['index__activities-list']">
+              <li>
+                <ResentActivity
+                  activity-name='Закончена "Гордость и предубеждение"'
+                  :activity-rate="5"
+                  :book-author="'Джейн Остин'"
+                />
+              </li>
+              <li>
+                <ResentActivity
+                  activity-name='Закончена "Великий Гэтсби"'
+                  :activity-rate="4"
+                  :book-author="'Ф. Скотт Фицджеральд'"
+                />
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -89,12 +109,16 @@ const router = useRouter()
     margin-top: 32px;
   }
 
+  &__current-list,
+  &__activities-list {
+    padding: 0;
+    list-style-type: none;
+  }
+
   &__current-list {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    padding: 0;
-    list-style-type: none;
   }
 
   &__subtitle {
@@ -109,6 +133,18 @@ const router = useRouter()
     display: flex;
     flex-direction: column;
     gap: 16px;
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  &__activities-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
 }
 </style>
