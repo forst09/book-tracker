@@ -95,6 +95,7 @@ const navigationLinks = [
   overflow-y: auto;
   background-color: var(--white);
   width: 319px;
+  border-right: 1px solid var(--stroke);
 
   &__logo {
     padding: 24px 24px 25px;
