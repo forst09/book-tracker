@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import CurrentBook from '@/components/cards/CurrentBook.vue'
 import GoalCard from '@/components/cards/GoalCard.vue'
 </script>
 
@@ -14,6 +15,19 @@ import GoalCard from '@/components/cards/GoalCard.vue'
       <div :class="$style.index__wrap">
         <div :class="$style.index__info">
           <GoalCard :books-total="20" :finished-books="2" />
+
+          <div :class="$style.index__current">
+            <h3 :class="$style.index__subtitle">Текущие книги</h3>
+            <ul :class="$style['index__current-list']">
+              <li>
+                <CurrentBook
+                  :book-name="'Полуночная библиотека'"
+                  :book-author="'Мэтт Хейг'"
+                  :progress-number="65"
+                />
+              </li>
+            </ul>
+          </div>
         </div>
         <div :class="$style.index__actions"></div>
       </div>
@@ -48,6 +62,26 @@ import GoalCard from '@/components/cards/GoalCard.vue'
   &__wrap {
     display: grid;
     grid-template-columns: 1fr 384px;
+  }
+
+  &__current {
+    margin-top: 32px;
+  }
+
+  &__current-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0;
+    list-style-type: none;
+  }
+
+  &__subtitle {
+    margin-bottom: 16px;
+    font-size: 19px;
+    line-height: 1.48;
+    font-weight: 600;
+    color: var(--black);
   }
 }
 </style>
