@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import CurrentBook from '@/components/cards/CurrentBook.vue'
 import GoalCard from '@/components/cards/GoalCard.vue'
+import ButtonBig from '@/components/ui/buttons/ButtonBig.vue'
+import { useRouter } from 'vue-router'
+import IconPlus from '@/assets/icons/plus.svg'
+import IconLibrary from '@/assets/icons/library.svg'
+
+const router = useRouter()
 </script>
 
 <template>
@@ -29,7 +35,21 @@ import GoalCard from '@/components/cards/GoalCard.vue'
             </ul>
           </div>
         </div>
-        <div :class="$style.index__actions"></div>
+        <div :class="$style.index__actions">
+          <div :class="$style.index__btns">
+            <ButtonBig
+              :btn-text="'Добавить книгу'"
+              :btn-type="'fill'"
+              :btn-url="router.resolve({ name: 'add-book' }).href"
+              :icon-component="IconPlus"
+            />
+            <ButtonBig
+              :btn-text="'Библиотека'"
+              :btn-url="router.resolve({ name: 'library' }).href"
+              :icon-component="IconLibrary"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -62,6 +82,7 @@ import GoalCard from '@/components/cards/GoalCard.vue'
   &__wrap {
     display: grid;
     grid-template-columns: 1fr 384px;
+    gap: 32px;
   }
 
   &__current {
@@ -82,6 +103,12 @@ import GoalCard from '@/components/cards/GoalCard.vue'
     line-height: 1.48;
     font-weight: 600;
     color: var(--black);
+  }
+
+  &__btns {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
 }
 </style>
