@@ -22,7 +22,7 @@ const emits = defineEmits(['update:modelValue'])
 const isValueSelected = ref(false)
 
 const selectChange = (e) => {
-  isValueSelected.value = e.target.value != 0
+  isValueSelected.value = true
   emits('update:modelValue', e.target.value)
 }
 </script>
@@ -37,9 +37,11 @@ const selectChange = (e) => {
         @change="selectChange"
       >
         <option
-          v-for="item in props.selectOptions"
+          v-for="(item, index) in props.selectOptions"
+          :selected="index === 0"
+          :disabled="index === 0"
           :key="item.id"
-          :value="item.id"
+          :value="item.name"
           :class="$style.select__option"
         >
           {{ item.name }}

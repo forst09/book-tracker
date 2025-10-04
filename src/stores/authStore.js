@@ -4,6 +4,7 @@ import { supabase } from "@/lib/supabaseClient";
 
 export const useAuthStore = defineStore('user', () => {
     const currentUser = reactive({
+        id: undefined,
         name: undefined,
         email: undefined
     });
@@ -22,7 +23,8 @@ export const useAuthStore = defineStore('user', () => {
             } = await supabase.auth.getUser()
 
             if (user) {
-                currentUser.email = user.email;
+                currentUser.id = user.id
+                currentUser.email = user.email
                 currentUser.name = user.user_metadata.name
             }
             else {

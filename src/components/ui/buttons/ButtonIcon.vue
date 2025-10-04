@@ -126,6 +126,8 @@ const props = defineProps({
   }
 
   &__icon {
+    width: 16px;
+    aspect-ratio: 1;
     stroke: var(--btn-icon-stroke, var(--white));
     stroke-width: 1.3px;
   }

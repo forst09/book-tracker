@@ -45,17 +45,22 @@ const inputEvent = (e) => {
     <label :for="props.inputId" :class="$style.input__label">
       {{ props.inputLabel }}
     </label>
-    <input
-      :id="props.inputId"
-      :type="props.inputType"
-      :placeholder="props.inputPlaceholder"
-      :required="props.isInputRequired"
-      :value="props.modelValue"
-      :name="props.inputName"
-      :aria-describedby="`${props.inputId}-error`"
-      :class="[$style.input__input, props.errorText && $style[`input__input--error`]]"
-      @input="inputEvent"
-    />
+    <div :class="$style.input__wrap">
+      <input
+        :id="props.inputId"
+        :type="props.inputType"
+        :placeholder="props.inputPlaceholder"
+        :required="props.isInputRequired"
+        :value="props.modelValue"
+        :name="props.inputName"
+        :aria-describedby="`${props.inputId}-error`"
+        :class="[$style.input__input, props.errorText && $style[`input__input--error`]]"
+        @input="inputEvent"
+      />
+      <div :class="$style.input__btn">
+        <slot name="btn" />
+      </div>
+    </div>
     <span
       v-if="props.errorText"
       role="alert"
@@ -88,6 +93,7 @@ const inputEvent = (e) => {
     color: var(--black);
     font-size: 14px;
     line-height: normal;
+    flex-grow: 1;
     transition: border-color 0.3s ease;
 
     &--error {
@@ -115,6 +121,19 @@ const inputEvent = (e) => {
     margin-top: 4px;
     font-size: 12px;
     color: red;
+  }
+
+  &__wrap {
+    display: flex;
+    gap: 8px;
+  }
+
+  &__btn {
+    flex-shrink: 0;
+
+    &:empty {
+      display: none;
+    }
   }
 }
 </style>
