@@ -1,11 +1,24 @@
 <script setup>
 import SearchIcon from '@/assets/icons/search.svg'
+
+const props = defineProps({
+  isIconInclude: {
+    type: Boolean,
+    required: false,
+    default: true,
+  },
+  btnText: {
+    type: String,
+    required: false,
+    default: 'Найти',
+  },
+})
 </script>
 
 <template>
   <button :class="$style.btn">
-    <SearchIcon :class="$style.btn__icon" />
-    <span>Найти</span>
+    <SearchIcon v-if="props.isIconInclude" :class="$style.btn__icon" />
+    <span>{{ props.btnText }}</span>
   </button>
 </template>
 
@@ -26,8 +39,14 @@ import SearchIcon from '@/assets/icons/search.svg'
   cursor: pointer;
   transition: opacity 0.3s ease;
 
+  &:disabled {
+    cursor: not-allowed;
+  }
+
   @include hover {
-    opacity: 1;
+    &:not(:disabled) {
+      opacity: 1;
+    }
   }
 
   &__icon {

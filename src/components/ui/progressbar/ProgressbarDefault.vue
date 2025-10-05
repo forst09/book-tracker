@@ -68,5 +68,14 @@ const props = defineProps({
       var(--color-azure-54, #155dfc) 100%
     );
   }
+
+  &--color-violet {
+    --progressbar-bg: var(--white2);
+    --progressbar-fill: linear-gradient(
+      90deg,
+      var(--color-violet-64, #ad46ff) 0%,
+      var(--color-rose-58, #f6339a) 100%
+    );
+  }
 }
 </style>

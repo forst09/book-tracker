@@ -94,6 +94,8 @@ const signUpNewUser = async (name, email, password) => {
       options: {
         data: {
           name,
+          booksGoal: 0,
+          finishedBooks: 0,
         },
       },
     })

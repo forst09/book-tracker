@@ -2,7 +2,7 @@
 import { nextTick, onMounted, ref } from 'vue'
 import FormInput from './FormInput.vue'
 import { supabase } from '@/lib/supabaseClient'
-import SearchButton from '../ui/buttons/SearchButton.vue'
+import SearchButton from '../ui/buttons/ButtonDefault.vue'
 import UploadIcon from '@/assets/icons/upload.svg'
 import ButtonReset from '../ui/buttons/ButtonReset.vue'
 

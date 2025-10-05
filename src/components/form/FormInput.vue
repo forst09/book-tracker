@@ -24,12 +24,17 @@ const props = defineProps({
     default: null,
   },
   modelValue: {
-    type: String,
+    type: [String, Number],
     required: true,
   },
   inputLabel: {
     type: String,
     required: true,
+  },
+  inputRange: {
+    type: Array,
+    required: false,
+    default: () => [],
   },
 })
 
@@ -55,6 +60,7 @@ const inputEvent = (e) => {
         :name="props.inputName"
         :aria-describedby="`${props.inputId}-error`"
         :class="[$style.input__input, props.errorText && $style[`input__input--error`]]"
+        :min="props.inputRange?.[0]"
         @input="inputEvent"
       />
       <div :class="$style.input__btn">

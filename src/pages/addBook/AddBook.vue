@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import AddBook from './components/AddBookForm.vue'
+import AddGoal from './components/AddGoal.vue'
 </script>
 
 <template>
   <div :class="$style.library">
     <div :class="['container', $style.library__container]">
-      <AddBook />
+      <AddBook :class="$style.library__item" />
+      <hr :class="$style.library__divider" />
+      <AddGoal :class="$style.library__item" />
     </div>
   </div>
 </template>
@@ -14,6 +17,15 @@ import AddBook from './components/AddBookForm.vue'
 .library {
   &__container {
     --container-max-width: 672px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  &__divider {
+    color: black;
+    opacity: 0.1;
   }
 }
 </style>

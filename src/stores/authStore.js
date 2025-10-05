@@ -6,7 +6,9 @@ export const useAuthStore = defineStore('user', () => {
     const currentUser = reactive({
         id: undefined,
         name: undefined,
-        email: undefined
+        email: undefined,
+        booksGoal: 0,
+        finishedBooks: 0
     });
 
     const isUserAuth = computed(() => {
@@ -26,6 +28,9 @@ export const useAuthStore = defineStore('user', () => {
                 currentUser.id = user.id
                 currentUser.email = user.email
                 currentUser.name = user.user_metadata.name
+                currentUser.booksGoal = user.user_metadata.booksGoal
+
+                await getFinishedBooks()
             }
             else {
                 clearUser()
@@ -51,5 +56,42 @@ export const useAuthStore = defineStore('user', () => {
         currentUser.name = undefined;
     }
 
-    return { currentUser, isUserAuth, isUserLoading, getCurrentUser, clearUser, setUserData }
+    const getFinishedBooks = async () => {
+        const { data: books, error } = await supabase.from('books').select('*').eq('userId', currentUser.id).eq('bookProgress', 100);
+
+        if (!error) {
+            await updateUserFinishedBooks(books.length)
+        }
+        console.log('finished', books);
+    }
+
+    const updateUserFinishedBooks = async (booksCount) => {
+        const { data, error } = await supabase.auth.updateUser({
+            data: {
+                finishedBooks: booksCount
+            }
+        });
+
+        if (!error) {
+            currentUser.finishedBooks = booksCount
+        }
+
+        console.log('update finished books', data)
+    }
+
+    const updateUserGoal = async (goalCount) => {
+        const { data, error } = await supabase.auth.updateUser({
+            data: {
+                booksGoal: goalCount
+            }
+        });
+
+        if (!error) {
+            currentUser.booksGoal = goalCount
+        }
+
+        console.log('update goal', data)
+    }
+
+    return { currentUser, isUserAuth, isUserLoading, getCurrentUser, clearUser, setUserData, getFinishedBooks, updateUserGoal }
 })

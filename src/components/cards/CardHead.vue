@@ -44,6 +44,11 @@ const props = defineProps({
     --head-icon-bg: var(--cyan-light);
   }
 
+  &--violet {
+    --head-icon-stroke: var(--color-violet-52);
+    --head-icon-bg: var(--pink);
+  }
+
   &__icon {
     display: flex;
     align-items: center;
