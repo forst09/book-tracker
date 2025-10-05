@@ -5,6 +5,7 @@ import IndexPage from '@/pages/index/IndexPage.vue'
 import { useAuthStore } from '@/stores/authStore'
 import LibraryPage from '@/pages/library/LibraryPage.vue'
 import AddBook from '@/pages/addBook/AddBook.vue'
+import BookDetail from '@/pages/library/BookDetail.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -32,6 +33,15 @@ const router = createRouter({
       meta: {
         layout: 'defaultLayout',
         title: 'Моя библиотека'
+      }
+    },
+    {
+      path: '/library/:id',
+      component: BookDetail,
+      name: 'book-detail',
+      meta: {
+        layout: 'defaultLayout',
+        title: 'Детали книги'
       }
     },
     {
