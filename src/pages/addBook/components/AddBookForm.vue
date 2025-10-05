@@ -78,7 +78,7 @@ const addBook = async () => {
     isLoading.value = true
     console.log(coverUrl.value, coverFile.value)
     const cover = coverUrl.value || coverFile.value
-    let coverPath = ''
+    let coverPath = null
 
     // load cover
     if (cover) {
@@ -87,7 +87,9 @@ const addBook = async () => {
         .upload(`cover_${authStore.currentUser.id}_${Date.now()}`, cover)
 
       if (!error) {
-        coverPath = `https://pqeoepwrzpljyfkgbpqc.supabase.co/storage/v1/object/public/${data.fullPath}`
+        coverPath = coverFile.value
+          ? `https://pqeoepwrzpljyfkgbpqc.supabase.co/storage/v1/object/public/${data.fullPath}`
+          : coverUrl.value
       } else {
         fileError.value = error
       }
