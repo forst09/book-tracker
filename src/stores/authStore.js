@@ -80,17 +80,24 @@ export const useAuthStore = defineStore('user', () => {
     }
 
     const updateUserGoal = async (goalCount) => {
-        const { data, error } = await supabase.auth.updateUser({
-            data: {
-                booksGoal: goalCount
-            }
-        });
+        try {
+            const { data, error } = await supabase.auth.updateUser({
+                data: {
+                    booksGoal: goalCount
+                }
+            });
 
-        if (!error) {
-            currentUser.booksGoal = goalCount
+            if (!error) {
+                currentUser.booksGoal = goalCount
+            }
+            console.log('update goal', data)
+
+            return { data, error }
+        }
+        catch (error) {
+            return { error }
         }
 
-        console.log('update goal', data)
     }
 
     return { currentUser, isUserAuth, isUserLoading, getCurrentUser, clearUser, setUserData, getFinishedBooks, updateUserGoal }

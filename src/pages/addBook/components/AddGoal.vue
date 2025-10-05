@@ -8,33 +8,28 @@ import { useAuthStore } from '@/stores/authStore'
 import LoaderDefault from '@/components/common/loaders/LoaderDefault.vue'
 import ProgressbarDefault from '@/components/ui/progressbar/ProgressbarDefault.vue'
 
-// const props = defineProps({
-//   goalCount: {
-//     type: Number,
-//     required: true,
-//   },
-//   finishedBooksCount: {
-//     type: Number,
-//     required: true,
-//   },
-// })
-
 const authStore = useAuthStore()
 
 const inputGoal = ref(authStore.currentUser.booksGoal)
+const goalError = ref(null)
+
 const finishedBooks = computed(() => {
   return authStore.currentUser.finishedBooks
 })
+
 const goal = computed(() => {
   return authStore.currentUser.booksGoal
 })
-console.log('f', finishedBooks)
-const goalError = ref(null)
+
 const isGoalLoading = ref(false)
 
 const setNewGoal = async () => {
   isGoalLoading.value = true
-  await authStore.updateUserGoal(+inputGoal.value)
+  goalError.value = null
+
+  const { error } = await authStore.updateUserGoal(+inputGoal.value)
+  goalError.value = error
+
   isGoalLoading.value = false
 }
 
@@ -42,8 +37,6 @@ const remainingBooks = computed(() => {
   const remainder = goal.value - finishedBooks.value
   return remainder < 0 ? 0 : remainder
 })
-
-// authStore.getFinishedBooks()
 </script>
 
 <template>
