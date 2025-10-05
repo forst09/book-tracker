@@ -11,6 +11,11 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
+  fileError: {
+    type: String,
+    required: false,
+    default: null,
+  },
 })
 
 const emits = defineEmits(['fileChange', 'updateFileError'])
@@ -20,48 +25,47 @@ const fileInput = ref(null)
 const preview = ref(null)
 const btnReset = ref(null)
 const filePreview = ref(null)
+const maxFileSize = 5 * 1024 * 1024
 
 const resetFile = () => {
   preview.value.textContent = ''
   filePreview.value = null
+  emits('updateFileError', null)
   emits('fileChange', null)
 }
 
 const createPreview = async (file) => {
   await nextTick()
-  console.log('file', file)
   filePreview.value = typeof file === 'string' ? file : URL.createObjectURL(file)
 }
 
 const displayImages = (type, file) => {
   if (type === 'file') {
-    console.log('hehe', file)
     if (file.type.startsWith('image/')) {
-      emits('fileChange', file)
-      createPreview(file)
+      if (file.size <= maxFileSize) {
+        emits('fileChange', file)
+        emits('updateFileError', null)
+        createPreview(file)
+      } else {
+        emits('updateFileError', 'Максимальный размер файла 5МБ')
+      }
     } else {
       emits('updateFileError', 'Загружать можно только картинки')
     }
   } else {
+    emits('updateFileError', null)
     emits('fileChange', file)
     createPreview(file)
   }
 }
 
 const dropHandler = (ev) => {
-  console.log('drop handler', ev)
   ev.preventDefault()
   const files = [...ev.dataTransfer.items].map((item) => item.getAsFile()).filter((file) => file)
-  console.log('file', files)
-  console.log([...ev.dataTransfer.items])
-  console.log(files[0])
-  console.log('drop handler', ev)
-  emits('fileChange', files[0])
-  createPreview(files[0])
+  displayImages('file', files[0])
 }
 
 const handleFileDrop = (e) => {
-  // console.log('dragover', e)
   const fileItems = [...e.dataTransfer.items].filter((item) => item.kind === 'file')
   if (fileItems.length > 0) {
     e.preventDefault()
@@ -75,14 +79,12 @@ const handleFileDrop = (e) => {
 
 onMounted(() => {
   window.addEventListener('drop', (e) => {
-    // console.log('drop', e)
     if ([...e.dataTransfer.items].some((item) => item.kind === 'file')) {
       e.preventDefault()
     }
   })
 
   window.addEventListener('dragover', (e) => {
-    // console.log('window dragover', e)
     const fileItems = [...e.dataTransfer.items].filter((item) => item.kind === 'file')
     if (fileItems.length > 0) {
       e.preventDefault()
@@ -158,6 +160,7 @@ const getImgFromUrl = async () => {
       <span :class="$style.upload__hint"
         >Загрузите файл изображения, вставьте ссылку или используйте кнопку "Найти"
       </span>
+      <span v-if="props.fileError" :class="$style.upload__error">{{ props.fileError }}</span>
     </div>
     <div v-else :class="$style.upload__result">
       <span>Обложка книги</span>
@@ -232,6 +235,11 @@ const getImgFromUrl = async () => {
     aspect-ratio: 96 / 144;
     border-radius: 10px;
     overflow: hidden;
+  }
+
+  &__error {
+    font-size: 12px;
+    color: red;
   }
 }
 </style>

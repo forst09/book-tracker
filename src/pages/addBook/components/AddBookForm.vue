@@ -63,12 +63,18 @@ const updateCover = (cover) => {
   }
 }
 
+const fileError = ref(null)
+const updateFileError = (value) => {
+  fileError.value = value
+}
+
 const authStore = useAuthStore()
 
 const isLoading = ref(false)
 
 const addBook = async () => {
   try {
+    fileError.value = null
     isLoading.value = true
     console.log(coverUrl.value, coverFile.value)
     const cover = coverUrl.value || coverFile.value
@@ -80,7 +86,11 @@ const addBook = async () => {
         .from('book-covers')
         .upload(`cover_${authStore.currentUser.id}_${Date.now()}`, cover)
 
-      coverPath = `https://pqeoepwrzpljyfkgbpqc.supabase.co/storage/v1/object/public/${data.fullPath}`
+      if (!error) {
+        coverPath = `https://pqeoepwrzpljyfkgbpqc.supabase.co/storage/v1/object/public/${data.fullPath}`
+      } else {
+        fileError.value = error
+      }
 
       console.log(data)
       console.log(error)
@@ -101,9 +111,14 @@ const addBook = async () => {
       ])
       .select()
 
+    if (error) {
+      fileError.value = error
+    }
+
     console.log(data)
     console.log(error)
   } catch (error) {
+    fileError.value = error
     console.error('error from add book', error)
   } finally {
     isLoading.value = false
@@ -140,7 +155,12 @@ const addBook = async () => {
       :select-id="'genre'"
       :select-options="genres"
     />
-    <FileUpload :is-file-exist="isFileExist" @file-change="updateCover" />
+    <FileUpload
+      :is-file-exist="isFileExist"
+      :file-error="fileError"
+      @file-change="updateCover"
+      @update-file-error="updateFileError"
+    />
     <ButtonIcon
       :btn-text="'Добавить книгу'"
       :btn-icon="SaveIcon"
