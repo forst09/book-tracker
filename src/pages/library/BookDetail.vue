@@ -58,6 +58,7 @@ const updateProgress = async (progressValue) => {
     if (!error) {
       book.bookProgress = progressValue
 
+      await authStore.getCurrentBooks()
       await authStore.getBooksCount()
     }
 

@@ -1,5 +1,8 @@
 <script setup>
+import { supabase } from '@/lib/supabaseClient'
 import ProgressbarDefault from '../ui/progressbar/ProgressbarDefault.vue'
+import { computed, ref } from 'vue'
+import { useAuthStore } from '@/stores/authStore'
 
 const props = defineProps({
   bookName: {
@@ -15,29 +18,40 @@ const props = defineProps({
     required: true,
   },
 })
+
+const authStore = useAuthStore()
 </script>
 
 <template>
   <div :class="$style.current">
     <span :class="$style.current__title">Сейчас читаю</span>
-    <div :class="$style.current__item">
-      <span :class="$style.current__name">{{ props.bookName }}</span>
-      <span :class="$style.current__author">{{ props.bookAuthor }}</span>
-      <div :class="$style.current__progress">
-        <span>Прогресс</span>
-        <span>{{ props.progressValue }}%</span>
-      </div>
-      <ProgressbarDefault
-        :progress-value="props.progressValue"
-        :progress-total="100"
-        :class="$style.current__progressbar"
-      />
-    </div>
+    <ul v-if="authStore.currentBooks.length > 0" :class="$style.current__list">
+      <li v-for="item in authStore.currentBooks" :key="item.id">
+        <div :class="$style.current__item">
+          <span :class="$style.current__name">{{ item.bookName }}</span>
+          <span :class="$style.current__author">{{ item.bookAuthor }}</span>
+          <div :class="$style.current__progress">
+            <span>Прогресс</span>
+            <span>{{ item.bookProgress }}%</span>
+          </div>
+          <ProgressbarDefault
+            :progress-value="item.bookProgress"
+            :progress-total="100"
+            :class="$style.current__progressbar"
+          />
+        </div>
+      </li>
+    </ul>
+    <span v-else>У вас еще нет книг, которые Вы сейчас читаете</span>
   </div>
 </template>
 
 <style lang="scss" module>
 .current {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+
   &__title {
     margin-bottom: 12px;
     display: inline-block;
@@ -85,6 +99,14 @@ const props = defineProps({
     line-height: 1.44;
     font-weight: 500;
     color: var(--black);
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0;
+    list-style-type: none;
   }
 }
 </style>

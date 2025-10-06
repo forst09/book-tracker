@@ -50,6 +50,8 @@ const updateProgress = async () => {
       emits('setProgress', progressInput.value)
       changeProgressMode('read')
 
+      await authStore.getCurrentBooks()
+
       await authStore.getBooksCount()
     }
 

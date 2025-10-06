@@ -35,6 +35,10 @@ const getBooks = async () => {
 }
 
 getBooks()
+
+// filter books
+const searchValue = ref('')
+const filterBooks = async () => {}
 </script>
 
 <template>
@@ -42,6 +46,13 @@ getBooks()
     <div :class="['container', $style.library__container]">
       <div :class="$style.library__content">
         <div v-if="books.length > 0" :class="$style.library__wrap">
+          <form @submit.prevent="filterBooks">
+            <input
+              type="search"
+              :class="$style.library__search"
+              placeholder="Поиск книги или автора"
+            />
+          </form>
           <ul :class="$style.library__result">
             <li v-for="book in books" :key="book.id">
               <BookCard

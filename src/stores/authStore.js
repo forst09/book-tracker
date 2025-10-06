@@ -10,7 +10,8 @@ export const useAuthStore = defineStore('user', () => {
         booksGoal: 0,
         finishedBooks: 0,
         readingBooks: 0,
-        plannedBooks: 0
+        plannedBooks: 0,
+        libraryCount: 0
     });
 
     const isUserAuth = computed(() => {
@@ -18,6 +19,26 @@ export const useAuthStore = defineStore('user', () => {
     })
 
     const isUserLoading = ref(false);
+
+    const currentBooks = ref([]);
+
+    const getCurrentBooks = async () => {
+        try {
+            const { data, error } = await supabase
+                .from('books')
+                .select('*')
+                .gt('bookProgress', 0)
+                .lt('bookProgress', 100)
+                .eq('userId', currentUser.id)
+
+            if (!error) {
+                currentBooks.value = data
+                console.log('curr', data)
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     const getCurrentUser = async () => {
         isUserLoading.value = true
@@ -33,6 +54,8 @@ export const useAuthStore = defineStore('user', () => {
                 currentUser.booksGoal = user.user_metadata.booksGoal
 
                 await getBooksCount()
+
+                getCurrentBooks()
             }
             else {
                 clearUser()
@@ -61,11 +84,14 @@ export const useAuthStore = defineStore('user', () => {
     }
 
     const updateUserBooksCount = async (finished, reading, planned) => {
+        const total = finished + reading + planned
+
         const { data, error } = await supabase.auth.updateUser({
             data: {
                 finishedBooks: finished,
                 readingBooks: reading,
-                plannedBooks: planned
+                plannedBooks: planned,
+                libraryCount: total
             }
         });
 
@@ -75,6 +101,7 @@ export const useAuthStore = defineStore('user', () => {
             currentUser.finishedBooks = finished
             currentUser.readingBooks = reading,
                 currentUser.plannedBooks = planned
+            currentUser.libraryCount = total
         }
     }
 
@@ -87,29 +114,6 @@ export const useAuthStore = defineStore('user', () => {
         currentUser.email = undefined;
         currentUser.name = undefined;
     }
-
-    // const getFinishedBooks = async () => {
-    //     const { data: books, error } = await supabase.from('books').select('*').eq('userId', currentUser.id).eq('bookProgress', 100);
-
-    //     if (!error) {
-    //         await updateUserFinishedBooks(books.length)
-    //     }
-    //     console.log('finished', books);
-    // }
-
-    // const updateUserFinishedBooks = async (booksCount) => {
-    //     const { data, error } = await supabase.auth.updateUser({
-    //         data: {
-    //             finishedBooks: booksCount
-    //         }
-    //     });
-
-    //     if (!error) {
-    //         currentUser.finishedBooks = booksCount
-    //     }
-
-    //     console.log('update finished books', data)
-    // }
 
     const updateUserGoal = async (goalCount) => {
         try {
@@ -132,5 +136,5 @@ export const useAuthStore = defineStore('user', () => {
 
     }
 
-    return { currentUser, isUserAuth, isUserLoading, getCurrentUser, clearUser, setUserData, updateUserGoal, getBooksCount }
+    return { currentUser, isUserAuth, isUserLoading, currentBooks, getCurrentUser, clearUser, setUserData, updateUserGoal, getBooksCount, getCurrentBooks }
 })

@@ -11,6 +11,7 @@ import PlusIcon from '@/assets/icons/plus.svg'
 import BooksGoal from '../aside/BooksGoal.vue'
 import CurrentRead from '../aside/CurrentRead.vue'
 import BookStatus from '../aside/BookStatus.vue'
+import { computed } from 'vue'
 
 // sign out user
 const authStore = useAuthStore()
@@ -30,27 +31,29 @@ async function signOut() {
 }
 
 // navigation links
-const navigationLinks = [
-  {
-    name: 'index',
-    url: router.resolve({ name: 'index' }).path,
-    title: 'Главная',
-    icon: HomeIcon,
-  },
-  {
-    name: 'library',
-    url: router.resolve({ name: 'library' }).path,
-    title: 'Моя библиотека',
-    icon: LibraryIcon,
-    counter: 4,
-  },
-  {
-    name: 'add-book',
-    url: router.resolve({ name: 'add-book' }).path,
-    title: 'Добавить книгу',
-    icon: PlusIcon,
-  },
-]
+const navigationLinks = computed(() => {
+  return [
+    {
+      name: 'index',
+      url: router.resolve({ name: 'index' }).path,
+      title: 'Главная',
+      icon: HomeIcon,
+    },
+    {
+      name: 'library',
+      url: router.resolve({ name: 'library' }).path,
+      title: 'Моя библиотека',
+      icon: LibraryIcon,
+      counter: authStore.currentUser.libraryCount,
+    },
+    {
+      name: 'add-book',
+      url: router.resolve({ name: 'add-book' }).path,
+      title: 'Добавить книгу',
+      icon: PlusIcon,
+    },
+  ]
+})
 </script>
 
 <template>
@@ -68,7 +71,10 @@ const navigationLinks = [
         <NavigationList :navigation-arr="navigationLinks" />
       </div>
       <div :class="$style.aside__item">
-        <BooksGoal :books-total="20" :finished-books="2" />
+        <BooksGoal
+          :books-total="authStore.currentUser.booksGoal"
+          :finished-books="authStore.currentUser.finishedBooks"
+        />
       </div>
       <div :class="$style.aside__item">
         <CurrentRead
