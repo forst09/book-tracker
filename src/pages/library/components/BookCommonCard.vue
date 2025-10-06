@@ -26,7 +26,7 @@ const emits = defineEmits(['editClick'])
         aria-label="Редактировать"
         :class="$style.card__btn"
       >
-        <EditIcon :class="$style['card__btn-svg']" />
+        <EditIcon :class="$style['card__btn-svg']" @click="emits('editClick')" />
       </button>
     </div>
     <slot />
