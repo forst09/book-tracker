@@ -12,7 +12,7 @@ const props = defineProps({
   btnColor: {
     type: String,
     required: true,
-    validator: (value) => ['violet', 'cyan', 'transparent', 'cyan-light'].includes(value),
+    validator: (value) => ['violet', 'cyan', 'transparent', 'cyan-light', 'green'].includes(value),
   },
   btnSize: {
     type: String,
@@ -104,6 +104,16 @@ const props = defineProps({
       90deg,
       var(--color-violet-64, #ad46ff) 0%,
       var(--color-violet-52, #9810fa) 100%
+    );
+    --btn-icon-border: unset;
+  }
+
+  &--color-green {
+    --btn-icon-color: var(--white);
+    --btn-icon-bg: linear-gradient(
+      90deg,
+      var(--color-spring-green-39, #00c950) 0%,
+      var(--color-spring-green-33, #00a63e) 100%
     );
     --btn-icon-border: unset;
   }

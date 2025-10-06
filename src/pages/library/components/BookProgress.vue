@@ -15,10 +15,11 @@ const props = defineProps({
   },
 })
 
+const emits = defineEmits(['setProgress'])
+
 const route = useRoute()
 const id = +route.params.id
 
-const progress = ref(props.initialProgress || 0)
 const progressMode = ref('read')
 
 const changeProgressMode = (value) => {
@@ -43,7 +44,8 @@ const updateProgress = async () => {
     progressError.value = error
 
     if (!error) {
-      progress.value = progressInput.value ? progressInput.value : '0%'
+      emits('setProgress', progressInput.value)
+      changeProgressMode('read')
     }
 
     console.log(data)
@@ -68,11 +70,11 @@ const updateProgress = async () => {
       <div v-if="progressMode === 'read'" :class="$style.progress__default">
         <div :class="$style.progress__descr">
           <span>Прогресс</span>
-          <span>{{ progress }}%</span>
+          <span>{{ props.initialProgress }}%</span>
         </div>
         <ProgressbarDefault
           :progress-total="100"
-          :progress-value="progress"
+          :progress-value="props.initialProgress"
           :class="$style.progress__progressbar"
         />
       </div>

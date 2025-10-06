@@ -43,6 +43,7 @@ const updateNote = async () => {
 
     if (!error) {
       note.value = noteTextarea.value ? noteTextarea.value : 'Вы еще не оставляли заметок'
+      changeNoteMode('read')
     }
 
     console.log(data)

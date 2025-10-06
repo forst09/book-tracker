@@ -7,8 +7,11 @@ import BookIntro from './components/BookIntro.vue'
 import BookRating from './components/BookRating.vue'
 import BookNotes from './components/BookNotes.vue'
 import BookProgress from './components/BookProgress.vue'
+import ButtonIcon from '@/components/ui/buttons/ButtonIcon.vue'
+import DoneIcon from '@/assets/icons/done.svg'
 
 const route = useRoute()
+const bookId = route.params.id
 const isBooksLoading = ref(true)
 const book = reactive({})
 
@@ -16,7 +19,7 @@ const getBook = async () => {
   try {
     isBooksLoading.value = true
 
-    const { data, error } = await supabase.from('books').select('*').eq('id', route.params.id)
+    const { data, error } = await supabase.from('books').select('*').eq('id', bookId)
 
     Object.assign(book, data[0])
     console.log(book)
@@ -29,13 +32,47 @@ const getBook = async () => {
 }
 
 getBook()
+
+const setProgress = (value) => {
+  book.bookProgress = +value
+}
+
+const isProgressLoading = ref(false)
+const progressError = ref(null)
+
+const updateProgress = async (progressValue) => {
+  try {
+    isProgressLoading.value = true
+    progressError.value = null
+
+    const { data, error } = await supabase
+      .from('books')
+      .update({ bookProgress: progressValue })
+      .eq('id', bookId)
+      .select()
+
+    progressError.value = error
+
+    if (!error) {
+      book.bookProgress = progressValue
+    }
+
+    console.log(data)
+    console.log(error)
+  } catch (error) {
+    progressError.value = error
+    console.error(error)
+  } finally {
+    isProgressLoading.value = false
+  }
+}
 </script>
 
 <template>
   <section :class="$style.book">
     <div :class="['container', $style.book__container]">
       <Transition name="opacity">
-        <LoaderDefault v-if="isBooksLoading" />
+        <LoaderDefault v-if="isBooksLoading || isProgressLoading" />
       </Transition>
       <div v-if="!isBooksLoading && book">
         <BookIntro
@@ -49,7 +86,14 @@ getBook()
         <div :class="$style.book__actions">
           <div :class="$style['book__actions-left']">
             <BookRating :book-rating="book.bookRating" />
-            <BookProgress :initial-progress="book.bookProgress" />
+            <BookProgress :initial-progress="book.bookProgress" @set-progress="setProgress" />
+            <ButtonIcon
+              v-if="book.bookProgress < 100"
+              :btn-icon="DoneIcon"
+              :btn-color="'green'"
+              :btn-text="'Прочитано'"
+              @click="updateProgress(100)"
+            />
           </div>
 
           <BookNotes :initial-note="book.bookNotes" />
