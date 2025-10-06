@@ -29,7 +29,8 @@ const props = defineProps({
   },
   inputLabel: {
     type: String,
-    required: true,
+    required: false,
+    default: '',
   },
   inputRange: {
     type: Array,
@@ -47,7 +48,7 @@ const inputEvent = (e) => {
 
 <template>
   <div :class="[$style.input]">
-    <label :for="props.inputId" :class="$style.input__label">
+    <label v-if="props.inputLabel" :for="props.inputId" :class="$style.input__label">
       {{ props.inputLabel }}
     </label>
     <div :class="$style.input__wrap">
@@ -61,6 +62,7 @@ const inputEvent = (e) => {
         :aria-describedby="`${props.inputId}-error`"
         :class="[$style.input__input, props.errorText && $style[`input__input--error`]]"
         :min="props.inputRange?.[0]"
+        :max="props.inputRange?.[1]"
         @input="inputEvent"
       />
       <div :class="$style.input__btn">

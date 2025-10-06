@@ -6,6 +6,7 @@ import LoaderDefault from '@/components/common/loaders/LoaderDefault.vue'
 import BookIntro from './components/BookIntro.vue'
 import BookRating from './components/BookRating.vue'
 import BookNotes from './components/BookNotes.vue'
+import BookProgress from './components/BookProgress.vue'
 
 const route = useRoute()
 const isBooksLoading = ref(true)
@@ -46,10 +47,12 @@ getBook()
         />
 
         <div :class="$style.book__actions">
-          <BookRating :book-rating="book.bookRating" />
-          <div>
-            <BookNotes :initial-note="book.bookNotes" />
+          <div :class="$style['book__actions-left']">
+            <BookRating :book-rating="book.bookRating" />
+            <BookProgress :initial-progress="book.bookProgress" />
           </div>
+
+          <BookNotes :initial-note="book.bookNotes" />
         </div>
       </div>
       <h2 v-if="!isBooksLoading && !book">Книга не найдена</h2>
@@ -72,6 +75,12 @@ getBook()
     grid-template-columns: repeat(2, 1fr);
     gap: 32px;
     align-items: flex-start;
+  }
+
+  &__actions-left {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
   }
 }
 </style>

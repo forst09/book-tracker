@@ -33,6 +33,7 @@ const props = defineProps({
   height: var(--progress-height, 6px);
   background-color: var(--progressbar-bg);
   border: none;
+  border-radius: 1000px;
 
   &::-webkit-progress-value {
     transition: all 1s;
