@@ -7,6 +7,7 @@ import { supabase } from '@/lib/supabaseClient'
 import LoaderDefault from '@/components/common/loaders/LoaderDefault.vue'
 import ProgressbarDefault from '@/components/ui/progressbar/ProgressbarDefault.vue'
 import FormInput from '@/components/form/FormInput.vue'
+import { useAuthStore } from '@/stores/authStore'
 
 const props = defineProps({
   initialProgress: {
@@ -16,6 +17,8 @@ const props = defineProps({
 })
 
 const emits = defineEmits(['setProgress'])
+
+const authStore = useAuthStore()
 
 const route = useRoute()
 const id = +route.params.id
@@ -46,6 +49,8 @@ const updateProgress = async () => {
     if (!error) {
       emits('setProgress', progressInput.value)
       changeProgressMode('read')
+
+      await authStore.getBooksCount()
     }
 
     console.log(data)

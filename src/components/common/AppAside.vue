@@ -79,9 +79,9 @@ const navigationLinks = [
       </div>
     </div>
     <BookStatus
-      :read-counter="2"
-      :reading-counter="1"
-      :planned-counter="1"
+      :read-counter="authStore.currentUser.finishedBooks"
+      :reading-counter="authStore.currentUser.readingBooks"
+      :planned-counter="authStore.currentUser.plannedBooks"
       :class="$style.aside__counter"
     />
   </aside>

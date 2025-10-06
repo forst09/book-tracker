@@ -11,6 +11,7 @@ app.use(pinia)
 
 const authStore = useAuthStore();
 await authStore.getCurrentUser()
+// await authStore.getBooksCount()
 
 app.use(router)
 

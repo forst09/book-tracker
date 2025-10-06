@@ -49,7 +49,11 @@ const bookCover = computed(() => {
     </div>
     <div :class="$style.book__content">
       <div :class="$style.book__main">
-        <h3 :class="$style.book__title">{{ props.bookName }}</h3>
+        <h3 :class="$style.book__title">
+          <RouterLink :to="props.bookUrl" :class="$style.book__link">
+            {{ props.bookName }}
+          </RouterLink>
+        </h3>
         <span :class="$style.book__author">{{ props.bookAuthor }}</span>
         <span v-if="props.bookGenre" :class="$style.book__genre">{{ props.bookGenre }}</span>
       </div>
@@ -78,6 +82,7 @@ const bookCover = computed(() => {
 
 <style lang="scss" module>
 .book {
+  position: relative;
   padding: 24px;
   background: rgba(255, 255, 255, 0.8);
   box-shadow:
@@ -122,6 +127,56 @@ const bookCover = computed(() => {
     font-size: 14px;
     line-height: 1.46;
     color: var(--gray3);
+  }
+
+  &__rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    line-height: 1.42;
+  }
+
+  &__rating-icon {
+    width: 16px;
+    aspect-ratio: 1;
+    fill: var(--yellow);
+    stroke: var(--yellow);
+    stroke-width: 1.3;
+  }
+
+  &__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__link {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+
+    @include hover {
+      color: var(--gray3);
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__progress-descr {
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 12px;
+    line-height: 1.33;
   }
 }
 </style>

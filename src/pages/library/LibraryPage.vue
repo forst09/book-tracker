@@ -6,8 +6,12 @@ import { useRouter } from 'vue-router'
 import IconPlus from '@/assets/icons/plus.svg'
 import LoaderDefault from '@/components/common/loaders/LoaderDefault.vue'
 import BookCard from '@/components/cards/BookCard.vue'
+import BookStatus from '@/components/aside/BookStatus.vue'
+import { useAuthStore } from '@/stores/authStore'
 
 const router = useRouter()
+
+const authStore = useAuthStore()
 
 const books = ref([])
 const isBooksLoading = ref(true)
@@ -37,20 +41,28 @@ getBooks()
   <section :class="$style.library">
     <div :class="['container', $style.library__container]">
       <div :class="$style.library__content">
-        <ul v-if="books.length > 0" :class="$style.library__result">
-          <li v-for="book in books" :key="book.id">
-            <BookCard
-              :book-author="book.bookAuthor"
-              :book-genre="book.bookGenre"
-              :book-name="book.bookName"
-              :book-progress="book.bookProgress"
-              :book-rating="book.bookRating"
-              :book-url="'/hehe'"
-              :img-url="book.bookCover"
-              :class="$style.library__card"
-            />
-          </li>
-        </ul>
+        <div v-if="books.length > 0" :class="$style.library__wrap">
+          <ul :class="$style.library__result">
+            <li v-for="book in books" :key="book.id">
+              <BookCard
+                :book-author="book.bookAuthor"
+                :book-genre="book.bookGenre"
+                :book-name="book.bookName"
+                :book-progress="book.bookProgress"
+                :book-rating="book.bookRating"
+                :book-url="`${$router.resolve({ name: 'library' }).path}/${book.id}`"
+                :img-url="book.bookCover"
+                :class="$style.library__card"
+              />
+            </li>
+          </ul>
+          <BookStatus
+            :planned-counter="authStore.currentUser.plannedBooks"
+            :read-counter="authStore.currentUser.finishedBooks"
+            :reading-counter="authStore.currentUser.readingBooks"
+            :class="$style.library__counter"
+          />
+        </div>
         <div v-else-if="books.length === 0 && !isBooksLoading" :class="$style.library__empty">
           <h3 :class="$style['library__empty-title']">Книги не найдены</h3>
           <ButtonBig
@@ -101,6 +113,18 @@ getBooks()
 
   &__card {
     height: 100%;
+  }
+
+  &__counter {
+    margin-top: 32px;
+    padding: 16px;
+    border-radius: 14px;
+    background: linear-gradient(
+      90deg,
+      var(--color-grey-98, #f8fafc) 0%,
+      var(--color-grey-96, #f1f5f9) 100%
+    );
+    border-top: unset;
   }
 }
 </style>

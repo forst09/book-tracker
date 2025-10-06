@@ -9,7 +9,9 @@ import BookNotes from './components/BookNotes.vue'
 import BookProgress from './components/BookProgress.vue'
 import ButtonIcon from '@/components/ui/buttons/ButtonIcon.vue'
 import DoneIcon from '@/assets/icons/done.svg'
+import { useAuthStore } from '@/stores/authStore'
 
+const authStore = useAuthStore()
 const route = useRoute()
 const bookId = route.params.id
 const isBooksLoading = ref(true)
@@ -55,6 +57,8 @@ const updateProgress = async (progressValue) => {
 
     if (!error) {
       book.bookProgress = progressValue
+
+      await authStore.getBooksCount()
     }
 
     console.log(data)
