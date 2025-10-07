@@ -113,6 +113,8 @@ const addBook = async () => {
       ])
       .select()
 
+    await authStore.getBooksCount()
+
     if (error) {
       fileError.value = error
     }
