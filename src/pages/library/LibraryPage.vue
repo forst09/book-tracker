@@ -285,4 +285,37 @@ watch(filterParams, () => {
     flex-wrap: wrap;
   }
 }
+
+@include laptop {
+  .library {
+    &__result {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+@include tablet-s {
+  .library {
+    &__result {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    &__radio {
+      gap: 4px 8px;
+    }
+
+    &__filters {
+      gap: 16px;
+    }
+  }
+}
+
+@include mobile-s {
+  .library {
+    &__result {
+      grid-template-columns: 1fr;
+    }
+  }
+}
 </style>

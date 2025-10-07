@@ -179,4 +179,10 @@ const bookCover = computed(() => {
     line-height: 1.33;
   }
 }
+
+@include tablet-s {
+  .book {
+    padding: 16px;
+  }
+}
 </style>
