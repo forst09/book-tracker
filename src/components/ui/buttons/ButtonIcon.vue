@@ -12,7 +12,8 @@ const props = defineProps({
   btnColor: {
     type: String,
     required: true,
-    validator: (value) => ['violet', 'cyan', 'transparent', 'cyan-light', 'green'].includes(value),
+    validator: (value) =>
+      ['violet', 'cyan', 'transparent', 'cyan-light', 'green', 'red'].includes(value),
   },
   btnSize: {
     type: String,
@@ -22,7 +23,7 @@ const props = defineProps({
   },
   btnIcon: {
     type: Object,
-    required: true,
+    required: false,
   },
   isContentReverse: {
     type: Boolean,
@@ -47,7 +48,11 @@ const props = defineProps({
       props.isContentReverse && $style['btn-icon--reverse'],
     ]"
   >
-    <component :is="props.btnIcon" :class="[$style['btn-icon__icon'], props.iconClass]" />
+    <component
+      v-if="props.btnIcon"
+      :is="props.btnIcon"
+      :class="[$style['btn-icon__icon'], props.iconClass]"
+    />
     <span>{{ props.btnText }}</span>
   </component>
 </template>
@@ -125,6 +130,12 @@ const props = defineProps({
       var(--color-cyan-37, #00bba7) 0%,
       var(--color-cyan-29, #009689) 100%
     );
+    --btn-icon-border: unset;
+  }
+
+  &--color-red {
+    --btn-icon-bg: var(--red);
+    --btn-icon-color: var(--white);
     --btn-icon-border: unset;
   }
 

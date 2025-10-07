@@ -10,6 +10,7 @@ import BookProgress from './components/BookProgress.vue'
 import ButtonIcon from '@/components/ui/buttons/ButtonIcon.vue'
 import DoneIcon from '@/assets/icons/done.svg'
 import { useAuthStore } from '@/stores/authStore'
+import router from '@/router'
 
 const authStore = useAuthStore()
 const route = useRoute()
@@ -71,6 +72,26 @@ const updateProgress = async (progressValue) => {
     isProgressLoading.value = false
   }
 }
+
+const deleteError = ref(null)
+const deleteBook = async () => {
+  isBooksLoading.value = true
+  try {
+    const { data, error } = await supabase.from('books').delete().eq('id', bookId)
+
+    if (!error) {
+      await authStore.getBooksCount()
+
+      router.push({ name: 'library' })
+    }
+
+    deleteError.value = error
+  } catch (error) {
+    deleteError.value = error
+  } finally {
+    isBooksLoading.value = false
+  }
+}
 </script>
 
 <template>
@@ -79,7 +100,7 @@ const updateProgress = async (progressValue) => {
       <Transition name="opacity">
         <LoaderDefault v-if="isBooksLoading || isProgressLoading" />
       </Transition>
-      <div v-if="!isBooksLoading && book">
+      <div v-if="!isBooksLoading && Object.keys(book).length > 0">
         <BookIntro
           :book-author="book.bookAuthor"
           :book-cover="book.bookCover"
@@ -99,12 +120,17 @@ const updateProgress = async (progressValue) => {
               :btn-text="'Прочитано'"
               @click="updateProgress(100)"
             />
+            <span v-if="progressError" :class="$style.book__error">{{ progressError }}</span>
+
+            <ButtonIcon btn-color="red" :btn-text="'Удалить'" @click="deleteBook" />
+            <span v-if="deleteError" :class="$style.book__error">{{ deleteError }}</span>
+            <span></span>
           </div>
 
           <BookNotes :initial-note="book.bookNotes" />
         </div>
       </div>
-      <h2 v-if="!isBooksLoading && !book">Книга не найдена</h2>
+      <h2 v-if="!isBooksLoading && Object.keys(book).length === 0">Книга не найдена</h2>
     </div>
   </section>
 </template>
@@ -130,6 +156,11 @@ const updateProgress = async (progressValue) => {
     display: flex;
     flex-direction: column;
     gap: 32px;
+  }
+
+  &__error {
+    font-size: 12px;
+    color: red;
   }
 }
 </style>
