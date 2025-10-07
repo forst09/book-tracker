@@ -118,13 +118,13 @@ const deleteBook = async () => {
               :btn-icon="DoneIcon"
               :btn-color="'green'"
               :btn-text="'Прочитано'"
+              :class="$style.book__done"
               @click="updateProgress(100)"
             />
             <span v-if="progressError" :class="$style.book__error">{{ progressError }}</span>
 
             <ButtonIcon btn-color="red" :btn-text="'Удалить'" @click="deleteBook" />
             <span v-if="deleteError" :class="$style.book__error">{{ deleteError }}</span>
-            <span></span>
           </div>
 
           <BookNotes :initial-note="book.bookNotes" />
@@ -161,6 +161,24 @@ const deleteBook = async () => {
   &__error {
     font-size: 12px;
     color: red;
+  }
+}
+
+@include tablet-s {
+  .book {
+    &__actions {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    &__actions-left {
+      flex-direction: column-reverse;
+      gap: 16px;
+    }
+
+    &__done {
+      order: 1;
+    }
   }
 }
 </style>

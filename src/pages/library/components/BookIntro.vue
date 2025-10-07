@@ -104,4 +104,23 @@ const bookCover = computed(() => {
     border-radius: 8px;
   }
 }
+
+@include tablet-s {
+  .intro {
+    padding: 16px;
+    gap: 16px;
+
+    &__cover {
+      max-width: 100px;
+    }
+
+    &__title {
+      font-size: 20px;
+    }
+
+    &__author {
+      font-size: 16px;
+    }
+  }
+}
 </style>
