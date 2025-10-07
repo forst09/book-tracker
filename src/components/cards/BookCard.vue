@@ -29,7 +29,7 @@ const props = defineProps({
   },
   bookRating: {
     type: Number,
-    required: true,
+    required: false,
   },
   bookUrl: {
     type: String,

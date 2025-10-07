@@ -7,7 +7,8 @@ import { ref } from 'vue'
 const props = defineProps({
   pageTitle: {
     type: String,
-    required: true,
+    required: false,
+    default: '',
   },
 })
 

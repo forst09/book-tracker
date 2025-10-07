@@ -5,7 +5,8 @@ import { computed } from 'vue'
 const props = defineProps({
   bookCover: {
     type: String,
-    required: true,
+    required: false,
+    default: '',
   },
   bookName: {
     type: String,

@@ -18,8 +18,6 @@ const layoutMap = {
 const layoutComponent = computed(() => {
   return layoutMap[route.meta.layout] || defaultLayout
 })
-
-// const authStore = useAuthStore()
 </script>
 
 <template>
