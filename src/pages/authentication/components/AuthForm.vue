@@ -141,4 +141,10 @@ const emits = defineEmits(['submitForm'])
     color: red;
   }
 }
+
+@include tablet-s {
+  .auth-form {
+    padding: 24px 16px;
+  }
+}
 </style>

@@ -242,4 +242,10 @@ const submitForm = () => {
     }
   }
 }
+
+@include tablet {
+  .registration {
+    --auth-img-ar: 560 / 284;
+  }
+}
 </style>

@@ -91,6 +91,7 @@ const props = defineProps({
     --logo-icon-width: 56px;
     --logo-icon-br: 16px;
     --logo-icon-stroke-width: 2.6px;
+    --logo-icon-svg-size: 32px;
   }
 
   &__icon {
@@ -101,6 +102,7 @@ const props = defineProps({
     aspect-ratio: 1;
     border-radius: var(--logo-icon-br);
     background: var(--logo-bg);
+    flex-shrink: 0;
   }
 
   &__icon-icon {

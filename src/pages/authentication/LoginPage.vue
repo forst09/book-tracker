@@ -165,4 +165,10 @@ const submitForm = () => {
     transform: rotate(180deg);
   }
 }
+
+@include tablet {
+  .login {
+    --auth-img-ar: 560 / 284;
+  }
+}
 </style>

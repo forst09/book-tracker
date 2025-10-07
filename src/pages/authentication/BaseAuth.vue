@@ -27,4 +27,15 @@
     flex-basis: calc(50% - 16px);
   }
 }
+
+@include tablet {
+  .base-auth {
+    flex-direction: column;
+
+    &__item {
+      flex-basis: unset;
+      width: 100%;
+    }
+  }
+}
 </style>
