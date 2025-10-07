@@ -15,16 +15,22 @@ const props = defineProps({
   },
 })
 
-const progressPercent = (props.finishedBooks / props.booksTotal) * 100
+const progressPercent = computed(() => {
+  return (props.finishedBooks / props.booksTotal) * 100
+})
 
-const remainingBooks = props.booksTotal - props.finishedBooks
+const remainingBooksFormat = computed(() => {
+  const number = props.booksTotal - props.finishedBooks
+
+  return `${number}  ${useDeclension(number, bookWordForms)}`
+})
 
 const readWordForms = ['прочитана', 'прочитаны', 'прочитано']
 const bookWordForms = ['книга', 'книги', 'книг']
 
-const remainingBooksFormat = `${remainingBooks}  ${useDeclension(props.finishedBooks, bookWordForms)}`
-
-const finishedBooksFormat = `${props.finishedBooks} ${useDeclension(props.finishedBooks, bookWordForms)} ${useDeclension(props.finishedBooks, readWordForms)}`
+const finishedBooksFormat = computed(() => {
+  return `${props.finishedBooks} ${useDeclension(props.finishedBooks, bookWordForms)} ${useDeclension(props.finishedBooks, readWordForms)}`
+})
 </script>
 
 <template>

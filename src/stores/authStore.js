@@ -52,10 +52,14 @@ export const useAuthStore = defineStore('user', () => {
                 currentUser.email = user.email
                 currentUser.name = user.user_metadata.name
                 currentUser.booksGoal = user.user_metadata.booksGoal
+                currentUser.finishedBooks = user.user_metadata.finishedBooks,
+                    currentUser.readingBooks = user.user_metadata.readingBooks,
+                    currentUser.plannedBooks = user.user_metadata.plannedBooks,
+                    currentUser.libraryCount = currentUser.finishedBooks + currentUser.plannedBooks + currentUser.readingBooks
 
                 await getBooksCount()
 
-                getCurrentBooks()
+                await getCurrentBooks()
             }
             else {
                 clearUser()

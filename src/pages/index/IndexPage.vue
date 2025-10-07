@@ -6,8 +6,11 @@ import { useRouter } from 'vue-router'
 import IconPlus from '@/assets/icons/plus.svg'
 import IconLibrary from '@/assets/icons/library.svg'
 import ResentActivity from '@/components/cards/ResentActivity.vue'
+import { useAuthStore } from '@/stores/authStore'
 
 const router = useRouter()
+
+const authStore = useAuthStore()
 </script>
 
 <template>
@@ -21,19 +24,23 @@ const router = useRouter()
       </div>
       <div :class="$style.index__wrap">
         <div :class="$style.index__info">
-          <GoalCard :books-total="20" :finished-books="2" />
+          <GoalCard
+            :books-total="authStore.currentUser.booksGoal"
+            :finished-books="authStore.currentUser.finishedBooks"
+          />
 
           <div :class="$style.index__current">
             <h3 :class="$style.index__subtitle">Текущие книги</h3>
-            <ul :class="$style['index__current-list']">
-              <li>
+            <ul v-if="authStore.currentBooks.length > 0" :class="$style['index__current-list']">
+              <li v-for="book in authStore.currentBooks" :key="book.id">
                 <CurrentBook
-                  :book-name="'Полуночная библиотека'"
-                  :book-author="'Мэтт Хейг'"
-                  :progress-number="65"
+                  :book-name="book.bookName"
+                  :book-author="book.bookAuthor"
+                  :progress-number="book.bookProgress"
                 />
               </li>
             </ul>
+            <span v-else>У Вас еще нет начатых книг</span>
           </div>
         </div>
         <div :class="$style.index__actions">
