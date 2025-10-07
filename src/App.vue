@@ -24,7 +24,7 @@ const layoutComponent = computed(() => {
 
 <template>
   <component :is="layoutComponent" :page-title="route.meta.title" :class="$style.main">
-    <RouterView />
+    <RouterView :key="route.fullPath" />
   </component>
 </template>
 

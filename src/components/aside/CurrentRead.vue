@@ -3,6 +3,7 @@ import { supabase } from '@/lib/supabaseClient'
 import ProgressbarDefault from '../ui/progressbar/ProgressbarDefault.vue'
 import { computed, ref } from 'vue'
 import { useAuthStore } from '@/stores/authStore'
+import router from '@/router'
 
 const props = defineProps({
   bookName: {
@@ -28,7 +29,13 @@ const authStore = useAuthStore()
     <ul v-if="authStore.currentBooks.length > 0" :class="$style.current__list">
       <li v-for="item in authStore.currentBooks" :key="item.id">
         <div :class="$style.current__item">
-          <span :class="$style.current__name">{{ item.bookName }}</span>
+          <span :class="$style.current__name">
+            <RouterLink
+              :to="`${router.resolve({ name: 'library' }).path}/${item.id}`"
+              :class="$style.current__link"
+              >{{ item.bookName }}
+            </RouterLink>
+          </span>
           <span :class="$style.current__author">{{ item.bookAuthor }}</span>
           <div :class="$style.current__progress">
             <span>Прогресс</span>
@@ -62,12 +69,27 @@ const authStore = useAuthStore()
   }
 
   &__item {
+    position: relative;
     padding: 12px;
     background: rgba(255, 255, 255, 0.8);
     box-shadow:
       0 1px 3px 0 rgba(0, 0, 0, 0.1),
       0 1px 2px -1px rgba(0, 0, 0, 0.1);
     border-radius: 14px;
+    overflow: hidden;
+  }
+
+  &__link {
+    color: inherit;
+    text-decoration: none;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
   }
 
   &__progress {
