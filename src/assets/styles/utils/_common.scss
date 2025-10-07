@@ -1,3 +1,5 @@
+@use './mixins' as m;
+
 body {
     font-family: var(--font-family-Font-1);
     font-weight: 400;
@@ -52,4 +54,10 @@ body {
     position: absolute;
     white-space: nowrap;
     width: 1px;
+}
+
+@include m.tablet-s {
+    .container {
+        padding: 16px;
+    }
 }

@@ -108,4 +108,24 @@ const props = defineProps({
     margin-top: 4px;
   }
 }
+
+@include tablet-s {
+  .book {
+    padding: 16px;
+    align-items: stretch;
+
+    &__img {
+      align-self: flex-start;
+    }
+
+    &__content {
+      // height: 100%;
+      justify-content: space-between;
+    }
+
+    &__progress-descr {
+      margin-top: auto;
+    }
+  }
+}
 </style>

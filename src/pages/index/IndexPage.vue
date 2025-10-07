@@ -184,4 +184,13 @@ getRecentActivity()
     gap: 12px;
   }
 }
+
+@include laptop {
+  .index {
+    &__wrap {
+      display: flex;
+      flex-direction: column-reverse;
+    }
+  }
+}
 </style>

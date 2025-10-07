@@ -11,7 +11,9 @@ import PlusIcon from '@/assets/icons/plus.svg'
 import BooksGoal from '../aside/BooksGoal.vue'
 import CurrentRead from '../aside/CurrentRead.vue'
 import BookStatus from '../aside/BookStatus.vue'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
+
+const emits = defineEmits(['closeClick'])
 
 // sign out user
 const authStore = useAuthStore()
@@ -57,7 +59,15 @@ const navigationLinks = computed(() => {
 </script>
 
 <template>
-  <aside :class="$style.aside">
+  <aside :class="[$style.aside, isAsideOpen && $style.active]">
+    <button
+      type="button"
+      aria-label="Закрыть меню"
+      :class="$style.aside__close"
+      @click="emits('closeClick', false)"
+    >
+      ✕
+    </button>
     <AppLogo :class="$style.aside__logo" />
     <div :class="$style.aside__user">
       <UserPreview
@@ -105,6 +115,10 @@ const navigationLinks = computed(() => {
   width: 319px;
   border-right: 1px solid var(--stroke);
 
+  &__close {
+    display: none;
+  }
+
   &__logo {
     padding: 24px 24px 25px;
     border-bottom: 1px solid var(--stroke);
@@ -121,6 +135,41 @@ const navigationLinks = computed(() => {
 
   &__counter {
     margin-top: auto;
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
+    background: var(--white);
+  }
+}
+
+@include tablet {
+  .aside {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+    padding: 24px 0 0;
+    transform: translateX(-100%);
+    opacity: 0;
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
+
+    &__close {
+      position: absolute;
+      right: 16px;
+      top: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background-color: var(--white);
+      border: 1px solid var(--stroke);
+      font-weight: 600;
+    }
   }
 }
 </style>

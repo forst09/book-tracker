@@ -117,4 +117,10 @@ const finishedBooksFormat = computed(() => {
     gap: 24px;
   }
 }
+
+@include tablet-s {
+  .goal {
+    padding: 16px;
+  }
+}
 </style>
