@@ -7,7 +7,7 @@ export const useAuthStore = defineStore('user', () => {
         id: undefined,
         name: undefined,
         email: undefined,
-        booksGoal: 0,
+        booksGoal: 1,
         finishedBooks: 0,
         readingBooks: 0,
         plannedBooks: 0,
@@ -125,20 +125,10 @@ export const useAuthStore = defineStore('user', () => {
     }
 
     const clearUser = () => {
-        //     {
-        //     id: undefined,
-        //     name: undefined,
-        //     email: undefined,
-        //     booksGoal: 0,
-        //     finishedBooks: 0,
-        //     readingBooks: 0,
-        //     plannedBooks: 0,
-        //     libraryCount: 0
-        // }
         currentUser.id = undefined
         currentUser.email = undefined
         currentUser.name = undefined
-        currentUser.booksGoal = 0
+        currentUser.booksGoal = 1
         currentUser.finishedBooks = 0
         currentUser.readingBooks = 0
         currentUser.plannedBooks = 0

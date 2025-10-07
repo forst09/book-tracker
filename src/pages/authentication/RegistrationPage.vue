@@ -94,8 +94,11 @@ const signUpNewUser = async (name, email, password) => {
       options: {
         data: {
           name,
-          booksGoal: 0,
+          booksGoal: 1,
           finishedBooks: 0,
+          readingBooks: 0,
+          plannedBooks: 0,
+          libraryCount: 0,
         },
       },
     })
@@ -107,7 +110,7 @@ const signUpNewUser = async (name, email, password) => {
     } else {
       supabaseError.value = null
 
-      authStore.setUserData(email, name)
+      authStore.setUserData(data.user.id, data.user.user_metadata, data.user.email)
 
       router.push({ name: 'index' })
     }

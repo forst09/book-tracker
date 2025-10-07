@@ -7,6 +7,7 @@ import { computed, ref } from 'vue'
 import { useAuthStore } from '@/stores/authStore'
 import LoaderDefault from '@/components/common/loaders/LoaderDefault.vue'
 import ProgressbarDefault from '@/components/ui/progressbar/ProgressbarDefault.vue'
+import { useDeclension } from '@/composables/useDeclension'
 
 const authStore = useAuthStore()
 
@@ -33,9 +34,12 @@ const setNewGoal = async () => {
   isGoalLoading.value = false
 }
 
+const bookWordForms = ['книгу', 'книги', 'книг']
+
 const remainingBooks = computed(() => {
-  const remainder = goal.value - finishedBooks.value
-  return remainder < 0 ? 0 : remainder
+  const count = goal.value - finishedBooks.value
+  const remainder = count < 0 ? 0 : count
+  return `${remainder} ${useDeclension(remainder, bookWordForms)}`
 })
 </script>
 
@@ -58,12 +62,7 @@ const remainingBooks = computed(() => {
         v-model="inputGoal"
       >
         <template #btn>
-          <ButtonDefault
-            :is-icon-include="false"
-            :btn-text="'Обновить'"
-            type="submit"
-            :disabled="inputGoal === goal"
-          />
+          <ButtonDefault :is-icon-include="false" :btn-text="'Обновить'" type="submit" />
         </template>
       </FormInput>
     </form>
@@ -76,7 +75,7 @@ const remainingBooks = computed(() => {
         :progress-color="'violet'"
         :class="$style.goal__progressbar"
       />
-      <span :class="$style.goal__hint">Осталось прочитать {{ remainingBooks }} книг!</span>
+      <span :class="$style.goal__hint">Осталось прочитать {{ remainingBooks }}!</span>
     </div>
     <Transition name="opacity">
       <LoaderDefault v-if="isGoalLoading" />
