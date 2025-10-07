@@ -87,6 +87,7 @@ const selectChange = (e) => {
   border-radius: 8px;
   outline: none;
   cursor: pointer;
+  background-color: var(--white);
   transition: border-color 0.3s ease;
 
   &.selected {

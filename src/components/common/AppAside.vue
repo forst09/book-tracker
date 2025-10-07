@@ -152,6 +152,7 @@ const navigationLinks = computed(() => {
     padding: 24px 0 0;
     transform: translateX(-100%);
     opacity: 0;
+    height: 100dvh;
     transition:
       transform 0.3s ease,
       opacity 0.3s ease;
@@ -169,6 +170,7 @@ const navigationLinks = computed(() => {
       background-color: var(--white);
       border: 1px solid var(--stroke);
       font-weight: 600;
+      color: var(--black);
     }
   }
 }

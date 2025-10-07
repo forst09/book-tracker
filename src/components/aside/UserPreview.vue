@@ -103,10 +103,14 @@ const emits = defineEmits(['handleLogoutClick'])
     justify-content: center;
     width: 32px;
     aspect-ratio: 1;
+    height: 32px;
     background-color: transparent;
     border-radius: 50%;
     border: unset;
     cursor: pointer;
+    flex-shrink: 0;
+    overflow: hidden;
+    padding: 0;
 
     @include hover {
       .user__logout-icon {

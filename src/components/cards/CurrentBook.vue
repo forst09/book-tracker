@@ -19,6 +19,10 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  bookLink: {
+    type: String,
+    required: true,
+  },
 })
 </script>
 
@@ -29,7 +33,11 @@ const props = defineProps({
     </div>
     <div :class="$style.book__content">
       <div :class="$style.book__head">
-        <span :class="$style.book__name">{{ props.bookName }}</span>
+        <span :class="$style.book__name">
+          <RouterLink :to="props.bookLink" :class="$style.book__link">
+            {{ props.bookName }}
+          </RouterLink>
+        </span>
         <span :class="$style.book__author">{{ props.bookAuthor }}</span>
       </div>
       <div :class="$style.book__progress">
@@ -49,6 +57,7 @@ const props = defineProps({
 
 <style lang="scss" module>
 .book {
+  position: relative;
   display: flex;
   align-items: flex-start;
   gap: 24px;
@@ -59,6 +68,7 @@ const props = defineProps({
     0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -2px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(4px);
+  overflow: hidden;
 
   &__img {
     width: 96px;
@@ -106,6 +116,19 @@ const props = defineProps({
     --progress-height: 8px;
 
     margin-top: 4px;
+  }
+
+  &__link {
+    color: inherit;
+    text-decoration: unset;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 

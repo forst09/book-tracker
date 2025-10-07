@@ -67,6 +67,7 @@ getRecentActivity()
                   :book-name="book.bookName"
                   :book-author="book.bookAuthor"
                   :progress-number="book.bookProgress"
+                  :book-link="`${router.resolve({ name: 'library' }).path}/${book.id}`"
                 />
               </li>
             </ul>

@@ -65,6 +65,8 @@ const emits = defineEmits(['burgerClick'])
       border: 1px solid var(--stroke);
       border-radius: 50%;
       flex-shrink: 0;
+      color: var(--black);
+      padding: 0;
     }
   }
 }

@@ -130,4 +130,15 @@ const props = defineProps({
     color: var(--gray);
   }
 }
+
+@include tablet-s {
+  .logo {
+    &--size-l {
+      --logo-top-fs: 20px;
+      --logo-bottom-fs: 14px;
+      --logo-icon-width: 40px;
+      --logo-icon-svg-size: 24px;
+    }
+  }
+}
 </style>

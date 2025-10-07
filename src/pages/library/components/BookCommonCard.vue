@@ -71,6 +71,8 @@ const emits = defineEmits(['editClick'])
     background-color: transparent;
     border: unset;
     cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
     transition: opacity 0.3s ease;
 
     @include hover {

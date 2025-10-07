@@ -191,6 +191,7 @@ const getImgFromUrl = async () => {
     line-height: 1.35;
     border-radius: 10px;
     cursor: pointer;
+    text-align: center;
   }
 
   &__icon {

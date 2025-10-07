@@ -102,6 +102,7 @@ const inputEvent = (e) => {
     font-size: 14px;
     line-height: normal;
     flex-grow: 1;
+    background-color: var(--white);
     transition: border-color 0.3s ease;
 
     &--error {

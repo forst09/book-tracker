@@ -49,6 +49,10 @@ const props = defineProps({
       color: var(--color-cyan-29);
     }
 
+    .link__counter {
+      background-color: #cbfbf1;
+    }
+
     .link__icon {
       stroke: var(--color-cyan-29);
     }

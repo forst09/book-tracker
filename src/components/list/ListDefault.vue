@@ -49,4 +49,12 @@ const props = defineProps({
     }
   }
 }
+
+@include tablet-s {
+  .list {
+    &__item {
+      padding: 4px 8px;
+    }
+  }
+}
 </style>

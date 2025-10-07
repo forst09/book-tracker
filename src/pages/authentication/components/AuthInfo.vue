@@ -101,4 +101,11 @@ const props = defineProps({
     }
   }
 }
+
+@include tablet-s {
+  .auth-info {
+    --item-spacing-s-plus: 16px;
+    --item-spacing-s: 8px;
+  }
+}
 </style>

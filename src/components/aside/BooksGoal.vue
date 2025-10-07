@@ -15,7 +15,7 @@ const props = defineProps({
 })
 
 const progressPercent = computed(() => {
-  return `${(props.finishedBooks / props.booksTotal) * 100}% выполнено`
+  return `${parseInt((props.finishedBooks / props.booksTotal) * 100)}% выполнено`
 })
 </script>
 
