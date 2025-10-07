@@ -28,4 +28,12 @@ import AddGoal from './components/AddGoal.vue'
     opacity: 0.1;
   }
 }
+
+@include tablet-s {
+  .library {
+    &__container {
+      gap: 16px;
+    }
+  }
+}
 </style>

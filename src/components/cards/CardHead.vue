@@ -57,6 +57,7 @@ const props = defineProps({
     aspect-ratio: 1;
     border-radius: 10px;
     background-color: var(--head-icon-bg);
+    flex-shrink: 0;
   }
 
   &__icon-svg {

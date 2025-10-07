@@ -144,4 +144,12 @@ const inputEvent = (e) => {
     }
   }
 }
+
+@include tablet-s {
+  .input {
+    &__wrap {
+      flex-direction: column;
+    }
+  }
+}
 </style>

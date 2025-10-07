@@ -132,4 +132,10 @@ const remainingBooks = computed(() => {
     --progress-height: 8px;
   }
 }
+
+@include tablet-s {
+  .goal {
+    padding: 16px;
+  }
+}
 </style>

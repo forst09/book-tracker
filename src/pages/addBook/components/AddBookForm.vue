@@ -204,4 +204,10 @@ const addBook = async () => {
     }
   }
 }
+
+@include tablet-s {
+  .form {
+    padding: 16px;
+  }
+}
 </style>
