@@ -1,13 +1,14 @@
 <script setup>
 import ButtonBig from '@/components/ui/buttons/ButtonBig.vue'
 import { supabase } from '@/lib/supabaseClient'
-import { ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import IconPlus from '@/assets/icons/plus.svg'
 import LoaderDefault from '@/components/common/loaders/LoaderDefault.vue'
 import BookCard from '@/components/cards/BookCard.vue'
 import BookStatus from '@/components/aside/BookStatus.vue'
 import { useAuthStore } from '@/stores/authStore'
+import FilterInput from '@/components/form/FilterInput.vue'
 
 const router = useRouter()
 
@@ -39,20 +40,117 @@ getBooks()
 // filter books
 const searchValue = ref('')
 const filterBooks = async () => {}
+
+const filterRadios = computed(() => {
+  return [
+    {
+      id: 'progress-all',
+      value: 'all',
+      text: 'Все',
+      counter: authStore.currentUser.libraryCount,
+    },
+    {
+      id: 'progress-reading',
+      value: 'reading',
+      text: 'Читаю',
+      counter: authStore.currentUser.readingBooks,
+    },
+    {
+      id: 'progress-finished',
+      value: 'finished',
+      text: 'Прочитано',
+      counter: authStore.currentUser.finishedBooks,
+    },
+    {
+      id: 'progress-planned',
+      value: 'planned',
+      text: 'Запланировано',
+      counter: authStore.currentUser.plannedBooks,
+    },
+  ]
+})
+
+const selectedProgress = ref(filterRadios.value[0].value)
+
+const filterParams = computed(() => {
+  return {
+    search: searchValue.value,
+    progress: selectedProgress.value,
+  }
+})
+
+const isFiltersEmpty = computed(() => {
+  return searchValue.value === '' && selectedProgress.value === 'all'
+})
+
+const isFilterLoad = ref(false)
+const filterError = ref(null)
+
+const applyFilter = async () => {
+  isFilterLoad.value = true
+  try {
+    let query = supabase
+      .from('books')
+      .select('*')
+      .or(`bookName.ilike.%${searchValue.value}%,bookAuthor.ilike.%${searchValue.value}%`)
+
+    if (selectedProgress.value === 'reading') {
+      query = query.gt('bookProgress', 0).lt('bookProgress', 100)
+    } else if (selectedProgress.value === 'finished') {
+      query = query.eq('bookProgress', 100)
+    } else if (selectedProgress.value === 'planned') {
+      query = query.eq('bookProgress', 0)
+    }
+
+    const { data, error } = await query
+
+    console.log('data', data)
+    if (!error) {
+      books.value = data
+    }
+    filterError.value = error
+  } catch (error) {
+    filterError.value = error
+  } finally {
+    isFilterLoad.value = false
+  }
+}
+
+watch(filterParams, () => {
+  applyFilter()
+})
 </script>
 
 <template>
   <section :class="$style.library">
     <div :class="['container', $style.library__container]">
       <div :class="$style.library__content">
-        <div v-if="books.length > 0" :class="$style.library__wrap">
-          <form @submit.prevent="filterBooks">
-            <input
-              type="search"
-              :class="$style.library__search"
-              placeholder="Поиск книги или автора"
+        <form
+          v-if="books.length > 0 || (books.length === 0 && !isFiltersEmpty)"
+          :class="$style.library__filters"
+          @submit.prevent="filterBooks"
+        >
+          <input
+            v-model="searchValue"
+            type="search"
+            :class="$style.library__search"
+            placeholder="Поиск книги или автора"
+          />
+          <div :class="$style.library__radio">
+            <FilterInput
+              v-for="radio in filterRadios"
+              v-model="selectedProgress"
+              :key="radio.value"
+              :counter-value="radio.counter"
+              :input-id="radio.id"
+              :input-name="'progress'"
+              :input-value="radio.value"
+              :label-text="radio.text"
+              :is-checked="selectedProgress === radio.value"
             />
-          </form>
+          </div>
+        </form>
+        <div v-if="books.length > 0" :class="$style.library__wrap">
           <ul :class="$style.library__result">
             <li v-for="book in books" :key="book.id">
               <BookCard
@@ -67,24 +165,30 @@ const filterBooks = async () => {}
               />
             </li>
           </ul>
-          <BookStatus
-            :planned-counter="authStore.currentUser.plannedBooks"
-            :read-counter="authStore.currentUser.finishedBooks"
-            :reading-counter="authStore.currentUser.readingBooks"
-            :class="$style.library__counter"
-          />
         </div>
-        <div v-else-if="books.length === 0 && !isBooksLoading" :class="$style.library__empty">
+        <div
+          v-else-if="books.length === 0 && !isBooksLoading && !isFilterLoad"
+          :class="$style.library__empty"
+        >
           <h3 :class="$style['library__empty-title']">Книги не найдены</h3>
           <ButtonBig
+            v-if="isFiltersEmpty"
             :btn-text="'Добавить книгу'"
             :btn-type="'fill'"
             :btn-url="router.resolve({ name: 'add-book' }).href"
             :icon-component="IconPlus"
           />
+          <span v-else>Попробуйте выбрать другие параметры фильтра</span>
         </div>
+
+        <BookStatus
+          :planned-counter="authStore.currentUser.plannedBooks"
+          :read-counter="authStore.currentUser.finishedBooks"
+          :reading-counter="authStore.currentUser.readingBooks"
+          :class="$style.library__counter"
+        />
         <Transition name="opacity">
-          <LoaderDefault v-if="isBooksLoading" />
+          <LoaderDefault v-if="isBooksLoading || isFilterLoad" />
         </Transition>
       </div>
     </div>
@@ -136,6 +240,43 @@ const filterBooks = async () => {}
       var(--color-grey-96, #f1f5f9) 100%
     );
     border-top: unset;
+  }
+
+  &__search {
+    padding: 16px 41px;
+    width: 100%;
+    font-family: var(--font-family-Font-1);
+    font-size: 14px;
+    line-height: normal;
+    color: var(--black);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(4px);
+    border: 1px solid var(--white2);
+    outline: none;
+    transition: border-color 0.3s ease;
+
+    @include hover {
+      border-color: var(--black);
+    }
+
+    &:focus {
+      border-color: var(--black);
+    }
+  }
+
+  &__filters {
+    margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  &__radio {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
   }
 }
 </style>
