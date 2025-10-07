@@ -23,7 +23,10 @@ const getBooks = async () => {
     isBooksLoading.value = true
     booksError.value = null
 
-    const { data, error } = await supabase.from('books').select('*')
+    const { data, error } = await supabase
+      .from('books')
+      .select('*')
+      .eq('userId', authStore.currentUser.id)
     books.value.push(...data)
     console.log('books', data)
 
@@ -93,6 +96,7 @@ const applyFilter = async () => {
       .from('books')
       .select('*')
       .or(`bookName.ilike.%${searchValue.value}%,bookAuthor.ilike.%${searchValue.value}%`)
+      .eq('userId', authStore.currentUser.id)
 
     if (selectedProgress.value === 'reading') {
       query = query.gt('bookProgress', 0).lt('bookProgress', 100)

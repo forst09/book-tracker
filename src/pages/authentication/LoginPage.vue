@@ -74,7 +74,7 @@ const signInUser = async (email, password) => {
     } else {
       supabaseError.value = null
 
-      authStore.setUserData(data.user.email, data.user.user_metadata.name)
+      authStore.setUserData(data.user.id, data.user.user_metadata, data.user.email)
 
       router.push({ name: 'index' })
     }

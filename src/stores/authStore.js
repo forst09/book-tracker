@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { computed, reactive, ref } from "vue";
+import { computed, reactive, ref, watch } from "vue";
 import { supabase } from "@/lib/supabaseClient";
 
 export const useAuthStore = defineStore('user', () => {
@@ -15,7 +15,11 @@ export const useAuthStore = defineStore('user', () => {
     });
 
     const isUserAuth = computed(() => {
-        return currentUser.name ? true : false
+        return currentUser.id !== undefined
+    })
+
+    watch(isUserAuth, () => {
+        console.log('watch auth', isUserAuth.value)
     })
 
     const isUserLoading = ref(false);
@@ -109,14 +113,37 @@ export const useAuthStore = defineStore('user', () => {
         }
     }
 
-    const setUserData = (name, email) => {
+    const setUserData = (id, metadata, email) => {
+        currentUser.id = id
         currentUser.email = email;
-        currentUser.name = name;
+        currentUser.name = metadata.name;
+        currentUser.booksGoal = metadata.booksGoal
+        currentUser.finishedBooks = metadata.finishedBooks,
+            currentUser.readingBooks = metadata.readingBooks,
+            currentUser.plannedBooks = metadata.plannedBooks,
+            currentUser.libraryCount = currentUser.finishedBooks + currentUser.plannedBooks + currentUser.readingBooks
     }
 
     const clearUser = () => {
-        currentUser.email = undefined;
-        currentUser.name = undefined;
+        //     {
+        //     id: undefined,
+        //     name: undefined,
+        //     email: undefined,
+        //     booksGoal: 0,
+        //     finishedBooks: 0,
+        //     readingBooks: 0,
+        //     plannedBooks: 0,
+        //     libraryCount: 0
+        // }
+        currentUser.id = undefined
+        currentUser.email = undefined
+        currentUser.name = undefined
+        currentUser.booksGoal = 0
+        currentUser.finishedBooks = 0
+        currentUser.readingBooks = 0
+        currentUser.plannedBooks = 0
+        currentUser.libraryCount = 0
+
     }
 
     const updateUserGoal = async (goalCount) => {

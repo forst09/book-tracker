@@ -69,7 +69,7 @@ router.beforeEach(async (to, from) => {
 
   const authStore = useAuthStore();
 
-  console.log(authStore.isUserAuth)
+  console.log('is auth', authStore.isUserAuth)
 
   if (!authStore.isUserAuth && to.name !== 'login' && to.name !== 'registration') {
     return {
