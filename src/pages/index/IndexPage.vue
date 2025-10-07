@@ -5,12 +5,42 @@ import ButtonBig from '@/components/ui/buttons/ButtonBig.vue'
 import { useRouter } from 'vue-router'
 import IconPlus from '@/assets/icons/plus.svg'
 import IconLibrary from '@/assets/icons/library.svg'
-import ResentActivity from '@/components/cards/ResentActivity.vue'
+import RecentActivity from '@/components/cards/RecentActivity.vue'
 import { useAuthStore } from '@/stores/authStore'
+import { ref } from 'vue'
+import { supabase } from '@/lib/supabaseClient'
 
 const router = useRouter()
 
 const authStore = useAuthStore()
+
+const isActivityLoading = ref(true)
+const activityError = ref(null)
+const activityCards = ref([])
+
+const getRecentActivity = async () => {
+  isActivityLoading.value = true
+  try {
+    const { data, error } = await supabase
+      .from('books')
+      .select('*')
+      .eq('bookProgress', 100)
+      .gt('bookRating', 0)
+      .eq('userId', authStore.currentUser.id)
+      .order('updated_at', { ascending: false })
+      .limit(2)
+    if (!error) {
+      activityCards.value = data
+    }
+    activityError.value = error
+  } catch (error) {
+    activityError.value = error
+  } finally {
+    isActivityLoading.value = false
+  }
+}
+
+getRecentActivity()
 </script>
 
 <template>
@@ -59,22 +89,22 @@ const authStore = useAuthStore()
           </div>
           <div :class="$style.index__activities">
             <h3 :class="$style.index__subtitle">Последние активности</h3>
-            <ul :class="$style['index__activities-list']">
-              <li>
-                <ResentActivity
-                  activity-name='Закончена "Гордость и предубеждение"'
-                  :activity-rate="5"
-                  :book-author="'Джейн Остин'"
-                />
-              </li>
-              <li>
-                <ResentActivity
-                  activity-name='Закончена "Великий Гэтсби"'
-                  :activity-rate="4"
-                  :book-author="'Ф. Скотт Фицджеральд'"
+            <ul
+              v-if="activityCards.length > 0 && !isActivityLoading"
+              :class="$style['index__activities-list']"
+            >
+              <li v-for="book in activityCards" :key="book.id">
+                <RecentActivity
+                  :activity-name="`Закончена &quot;${book.bookName}&quot;`"
+                  :activity-rate="book.bookRating"
+                  :book-author="book.bookAuthor"
                 />
               </li>
             </ul>
+            <span v-if="isActivityLoading">Загрузка...</span>
+            <span v-if="activityCards.length === 0 && !isActivityLoading"
+              >У Вас еще нет активностей. Прочтите и оцените книгу</span
+            >
           </div>
         </div>
       </div>

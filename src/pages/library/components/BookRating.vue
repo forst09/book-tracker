@@ -73,11 +73,11 @@ const setRating = async () => {
         >
           <StarIcon :class="$style['rating__star-icon']" />
         </label>
-        <span v-if="ratingError" :class="$style.rating__error">{{ ratingError }}</span>
       </div>
     </div>
     <span>{{ descr }}</span>
 
+    <span v-if="ratingError" :class="$style.rating__error">{{ ratingError.message }}</span>
     <Transition name="opacity">
       <LoaderDefault v-if="isRatingLoading" />
     </Transition>
