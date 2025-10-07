@@ -17,6 +17,7 @@ const authStore = useAuthStore()
 const books = ref([])
 const isBooksLoading = ref(true)
 const booksError = ref(null)
+const booksInitialCount = ref(0)
 
 const getBooks = async () => {
   try {
@@ -28,6 +29,7 @@ const getBooks = async () => {
       .select('*')
       .eq('userId', authStore.currentUser.id)
     books.value.push(...data)
+    booksInitialCount.value = books.value.length
     console.log('books', data)
 
     booksError.value = error
@@ -130,7 +132,7 @@ watch(filterParams, () => {
     <div :class="['container', $style.library__container]">
       <div :class="$style.library__content">
         <form
-          v-if="books.length > 0 || (books.length === 0 && !isFiltersEmpty)"
+          v-if="booksInitialCount > 0"
           :class="$style.library__filters"
           @submit.prevent="filterBooks"
         >
