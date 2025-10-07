@@ -59,7 +59,7 @@ const navigationLinks = computed(() => {
 </script>
 
 <template>
-  <aside :class="[$style.aside, isAsideOpen && $style.active]">
+  <aside :class="$style.aside">
     <button
       type="button"
       aria-label="Закрыть меню"

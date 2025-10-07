@@ -1,6 +1,7 @@
 <script setup>
 import AppAside from '@/components/common/AppAside.vue'
 import AppHeader from '@/components/common/AppHeader.vue'
+import router from '@/router'
 import { ref } from 'vue'
 
 const props = defineProps({
@@ -20,6 +21,10 @@ const toggleAside = (value) => {
     document.body.style.overflow = 'hidden'
   }
 }
+
+router.beforeEach(() => {
+  toggleAside(false)
+})
 </script>
 <template>
   <div :class="$style.layout">
