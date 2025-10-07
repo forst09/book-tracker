@@ -10,6 +10,7 @@ import ButtonIcon from '@/components/ui/buttons/ButtonIcon.vue'
 import SaveIcon from '@/assets/icons/save.svg'
 import { useAuthStore } from '@/stores/authStore'
 import LoaderDefault from '@/components/common/loaders/LoaderDefault.vue'
+import router from '@/router'
 
 const bookName = ref('')
 const bookNameError = ref(null)
@@ -112,8 +113,10 @@ const addBook = async () => {
         },
       ])
       .select()
-
-    await authStore.getBooksCount()
+    if (!error) {
+      await authStore.getBooksCount()
+      router.push({ name: 'library' })
+    }
 
     if (error) {
       fileError.value = error
