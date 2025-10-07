@@ -16,13 +16,15 @@ const props = defineProps({
 })
 
 const progressPercent = computed(() => {
-  return (props.finishedBooks / props.booksTotal) * 100
+  return props.booksTotal === 0 ? 100 : (props.finishedBooks / props.booksTotal) * 100
 })
 
 const remainingBooksFormat = computed(() => {
   const number = props.booksTotal - props.finishedBooks
 
-  return `${number}  ${useDeclension(number, bookWordForms)}`
+  return number > 0
+    ? `Для достижения цели еще ${number}  ${useDeclension(number, bookWordForms)}!`
+    : 'Цель выполнена !'
 })
 
 const readWordForms = ['прочитана', 'прочитаны', 'прочитано']
@@ -54,7 +56,7 @@ const finishedBooksFormat = computed(() => {
         <span>{{ progressPercent }}% от цели</span>
       </div>
     </div>
-    <span :class="$style.goal__remainig">Для достижения цели еще {{ remainingBooksFormat }}!</span>
+    <span :class="$style.goal__remainig">{{ remainingBooksFormat }} </span>
   </div>
 </template>
 

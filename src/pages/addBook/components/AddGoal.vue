@@ -54,7 +54,7 @@ const remainingBooks = computed(() => {
         :error-text="goalError"
         :input-placeholder="'Количество книг'"
         :input-type="'number'"
-        :input-range="[0, undefined]"
+        :input-range="[1, undefined]"
         v-model="inputGoal"
       >
         <template #btn>
