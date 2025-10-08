@@ -9,6 +9,7 @@ import RecentActivity from '@/components/cards/RecentActivity.vue'
 import { useAuthStore } from '@/stores/authStore'
 import { ref } from 'vue'
 import { supabase } from '@/lib/supabaseClient'
+import LoaderDefault from '@/components/common/loaders/LoaderDefault.vue'
 
 const router = useRouter()
 
@@ -102,7 +103,7 @@ getRecentActivity()
                 />
               </li>
             </ul>
-            <span v-if="isActivityLoading">Загрузка...</span>
+            <LoaderDefault v-if="isActivityLoading" :is-absolute="false" />
             <span v-if="activityCards.length === 0 && !isActivityLoading"
               >У Вас еще нет активностей. Прочтите и оцените книгу</span
             >

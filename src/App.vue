@@ -20,12 +20,7 @@ const authStore = useAuthStore()
 </script>
 
 <template>
-  <component
-    v-if="!authStore.userError"
-    :is="layoutComponent"
-    :page-title="route.meta.title"
-    :class="$style.main"
-  >
+  <component v-if="!authStore.userError" :is="layoutComponent" :page-title="route.meta.title">
     <RouterView :key="route.fullPath" />
   </component>
   <h1 v-else>Что-то пошло не так. Перезагрузите страницу или попробуйте позже</h1>

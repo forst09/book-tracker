@@ -1,5 +1,15 @@
+<script setup>
+const props = defineProps({
+  isAbsolute: {
+    type: Boolean,
+    required: false,
+    default: true,
+  },
+})
+</script>
+
 <template>
-  <div :class="$style.loader">
+  <div :class="[$style.loader, $style[`loader--${props.isAbsolute ? 'absolute' : 'static'}`]]">
     <div :class="$style.loader__book">
       <figure :class="$style.loader__page"></figure>
       <figure :class="$style.loader__page"></figure>
@@ -17,12 +27,20 @@
   align-items: center;
   justify-content: center;
   gap: 16px;
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
   background-color: rgba(102, 51, 153, 0.4);
-  z-index: 10;
+
+  &--absolute {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+  }
+
+  &--static {
+    padding: 32px 0;
+    border-radius: 8px;
+  }
 
   &__text {
     position: relative;
