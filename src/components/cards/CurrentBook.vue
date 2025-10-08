@@ -142,7 +142,6 @@ const props = defineProps({
     }
 
     &__content {
-      // height: 100%;
       justify-content: space-between;
     }
 
