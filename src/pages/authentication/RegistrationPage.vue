@@ -13,6 +13,7 @@ import ButtonIcon from '@/components/ui/buttons/ButtonIcon.vue'
 import LoaderDefault from '@/components/common/loaders/LoaderDefault.vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
+import { validateEmail } from '@/utils/emailValidation'
 
 // auth info
 const logoDescr = 'Начните свой читательский путь'
@@ -61,7 +62,7 @@ const validateFormValues = () => {
     nameError.value = null
   }
 
-  if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailValue.value)) {
+  if (!validateEmail(emailValue.value)) {
     emailError.value = 'Некорректный email'
   } else {
     emailError.value = null
