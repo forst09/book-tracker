@@ -85,11 +85,7 @@ const navigationLinks = computed(() => {
         />
       </div>
       <div :class="$style.aside__item">
-        <CurrentRead
-          :book-name="'Полуночная библиотека'"
-          :book-author="'Мэтт Хейг'"
-          :progress-value="65"
-        />
+        <CurrentRead />
       </div>
     </div>
     <BookStatus
