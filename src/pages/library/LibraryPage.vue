@@ -43,7 +43,6 @@ getBooks()
 
 // filter books
 const searchValue = ref('')
-const filterBooks = async () => {}
 
 const filterRadios = computed(() => {
   return [
@@ -129,11 +128,7 @@ watch(filterParams, () => {
   <section :class="$style.library">
     <div :class="['container', $style.library__container]">
       <div :class="$style.library__content">
-        <form
-          v-if="booksInitialCount > 0"
-          :class="$style.library__filters"
-          @submit.prevent="filterBooks"
-        >
+        <form v-if="booksInitialCount > 0" :class="$style.library__filters">
           <input
             v-model="searchValue"
             type="search"
