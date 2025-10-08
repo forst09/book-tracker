@@ -83,9 +83,15 @@ const addBook = async () => {
         .upload(`cover_${authStore.currentUser.id}_${Date.now()}`, cover)
 
       if (!error) {
-        coverPath = coverFile.value
-          ? `https://pqeoepwrzpljyfkgbpqc.supabase.co/storage/v1/object/public/${data.fullPath}`
-          : coverUrl.value
+        if (coverFile.value) {
+          const {
+            data: { publicUrl },
+          } = supabase.storage.from('book-covers').getPublicUrl(data.path)
+
+          coverPath = publicUrl
+        } else {
+          coverPath = coverUrl.value
+        }
       } else {
         fileError.value = error
       }
