@@ -31,9 +31,14 @@ onMounted(async () => {
 })
 
 const getGenres = async () => {
-  const { data: hehe, error } = await supabase.from('genres').select('*').order('name')
+  const { data, error } = await supabase.from('genres').select('*').order('name')
 
-  genres.value.push(...hehe)
+  if (!error) {
+    genres.value.push(...data)
+  } else {
+    console.error('Failed to load genres', error)
+    return
+  }
 }
 
 // cover load
