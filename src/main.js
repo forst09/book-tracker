@@ -10,8 +10,13 @@ const app = createApp(App)
 app.use(pinia)
 
 const authStore = useAuthStore();
-await authStore.getCurrentUser()
-// await authStore.getBooksCount()
+
+try {
+    authStore.setUserError(null)
+    await authStore.getCurrentUser()
+} catch (error) {
+    authStore.setUserError(error)
+}
 
 app.use(router)
 

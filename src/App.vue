@@ -18,12 +18,20 @@ const layoutMap = {
 const layoutComponent = computed(() => {
   return layoutMap[route.meta.layout] || defaultLayout
 })
+
+const authStore = useAuthStore()
 </script>
 
 <template>
-  <component :is="layoutComponent" :page-title="route.meta.title" :class="$style.main">
+  <component
+    v-if="!authStore.userError"
+    :is="layoutComponent"
+    :page-title="route.meta.title"
+    :class="$style.main"
+  >
     <RouterView :key="route.fullPath" />
   </component>
+  <h1 v-else>Что-то пошло не так. Перезагрузите страницу или попробуйте позже</h1>
 </template>
 
 <style lang="scss">

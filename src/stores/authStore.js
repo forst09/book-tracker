@@ -18,6 +18,12 @@ export const useAuthStore = defineStore('user', () => {
         return currentUser.id !== undefined
     })
 
+    const userError = ref(null)
+
+    const setUserError = (value) => {
+        userError.value = value
+    }
+
     const isUserLoading = ref(false);
 
     const currentBooks = ref([]);
@@ -144,5 +150,5 @@ export const useAuthStore = defineStore('user', () => {
 
     }
 
-    return { currentUser, isUserAuth, isUserLoading, currentBooks, getCurrentUser, clearUser, setUserData, updateUserGoal, getBooksCount, getCurrentBooks }
+    return { currentUser, isUserAuth, isUserLoading, currentBooks, userError, getCurrentUser, clearUser, setUserData, updateUserGoal, getBooksCount, getCurrentBooks, setUserError }
 })

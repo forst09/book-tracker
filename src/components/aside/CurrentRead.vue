@@ -5,21 +5,6 @@ import { computed, ref } from 'vue'
 import { useAuthStore } from '@/stores/authStore'
 import router from '@/router'
 
-const props = defineProps({
-  bookName: {
-    type: String,
-    required: true,
-  },
-  bookAuthor: {
-    type: String,
-    required: true,
-  },
-  progressValue: {
-    type: Number,
-    required: true,
-  },
-})
-
 const authStore = useAuthStore()
 </script>
 
