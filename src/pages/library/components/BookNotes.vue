@@ -1,7 +1,7 @@
 <script setup>
 import ButtonSmall from '@/components/ui/buttons/ButtonSmall.vue'
 import BookCommonCard from './BookCommonCard.vue'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { supabase } from '@/lib/supabaseClient'
 import LoaderDefault from '@/components/common/loaders/LoaderDefault.vue'
@@ -33,7 +33,7 @@ const updateNote = async () => {
     isNoteLoading.value = true
     noteError.value = null
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('books')
       .update({ bookNotes: noteTextarea.value })
       .eq('id', id)

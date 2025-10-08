@@ -1,7 +1,5 @@
 <script setup>
-import { supabase } from '@/lib/supabaseClient'
 import ProgressbarDefault from '../ui/progressbar/ProgressbarDefault.vue'
-import { computed, ref } from 'vue'
 import { useAuthStore } from '@/stores/authStore'
 import router from '@/router'
 

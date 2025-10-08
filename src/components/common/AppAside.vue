@@ -3,7 +3,7 @@ import AppLogo from '@/components/common/AppLogo.vue'
 import UserPreview from '../aside/UserPreview.vue'
 import { useAuthStore } from '@/stores/authStore'
 import { supabase } from '@/lib/supabaseClient'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import NavigationList from '../navigation/NavigationList.vue'
 import HomeIcon from '@/assets/icons/home.svg'
 import LibraryIcon from '@/assets/icons/library.svg'
@@ -11,15 +11,13 @@ import PlusIcon from '@/assets/icons/plus.svg'
 import BooksGoal from '../aside/BooksGoal.vue'
 import CurrentRead from '../aside/CurrentRead.vue'
 import BookStatus from '../aside/BookStatus.vue'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 
 const emits = defineEmits(['closeClick'])
 
 // sign out user
 const authStore = useAuthStore()
 const router = useRouter()
-
-const route = useRoute()
 
 async function signOut() {
   const { error } = await supabase.auth.signOut()

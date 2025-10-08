@@ -2,7 +2,7 @@
 import CardHead from '@/components/cards/CardHead.vue'
 import BookIcon from '@/assets/icons/logo.svg'
 import FormInput from '@/components/form/FormInput.vue'
-import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import FormSelect from '@/components/form/FormSelect.vue'
 import { supabase } from '@/lib/supabaseClient'
 import FileUpload from '@/components/form/FileUpload.vue'
@@ -104,7 +104,7 @@ const addBook = async () => {
 
     // load book
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('books')
       .insert([
         {

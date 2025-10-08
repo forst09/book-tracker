@@ -1,11 +1,8 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
-import { supabase } from './lib/supabaseClient'
-import router from './router'
+import { computed } from 'vue'
 import { useAuthStore } from './stores/authStore'
-import LoaderDefault from './components/common/loaders/LoaderDefault.vue'
 import { useRoute } from 'vue-router'
-import defaultLayout from './layouts/default.vue'
+import defaultLayout from './layouts/defaultLayout.vue'
 import authLayout from './layouts/authLayout.vue'
 
 const route = useRoute()

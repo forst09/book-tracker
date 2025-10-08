@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { computed, reactive, ref, watch } from "vue";
+import { computed, reactive, ref } from "vue";
 import { supabase } from "@/lib/supabaseClient";
 
 export const useAuthStore = defineStore('user', () => {
@@ -90,7 +90,7 @@ export const useAuthStore = defineStore('user', () => {
     const updateUserBooksCount = async (finished, reading, planned) => {
         const total = finished + reading + planned
 
-        const { data, error } = await supabase.auth.updateUser({
+        const { error } = await supabase.auth.updateUser({
             data: {
                 finishedBooks: finished,
                 readingBooks: reading,

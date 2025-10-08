@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute } from 'vue-router'
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 import { supabase } from '@/lib/supabaseClient'
 import LoaderDefault from '@/components/common/loaders/LoaderDefault.vue'
 import BookIntro from './components/BookIntro.vue'
@@ -52,7 +52,7 @@ const updateProgress = async (progressValue) => {
     isProgressLoading.value = true
     progressError.value = null
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('books')
       .update({ bookProgress: progressValue })
       .eq('id', bookId)
@@ -77,7 +77,7 @@ const deleteError = ref(null)
 const deleteBook = async () => {
   isBooksLoading.value = true
   try {
-    const { data, error } = await supabase.from('books').delete().eq('id', bookId)
+    const { error } = await supabase.from('books').delete().eq('id', bookId)
 
     if (!error) {
       await authStore.getBooksCount()

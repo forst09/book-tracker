@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import BookCommonCard from './BookCommonCard.vue'
 import StarIcon from '@/assets/icons/star.svg'
 import { supabase } from '@/lib/supabaseClient'
@@ -34,7 +34,7 @@ const setRating = async () => {
     isRatingLoading.value = true
     ratingError.value = null
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('books')
       .update({ bookRating: rating.value })
       .eq('id', id)
