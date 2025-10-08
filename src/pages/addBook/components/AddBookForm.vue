@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import CardHead from '@/components/cards/CardHead.vue'
 import BookIcon from '@/assets/icons/logo.svg'
 import FormInput from '@/components/form/FormInput.vue'

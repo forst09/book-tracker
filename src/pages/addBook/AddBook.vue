@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import AddBook from './components/AddBookForm.vue'
 import AddGoal from './components/AddGoal.vue'
 </script>

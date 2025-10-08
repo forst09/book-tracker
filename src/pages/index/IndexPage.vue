@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import CurrentBook from '@/components/cards/CurrentBook.vue'
 import GoalCard from '@/components/cards/GoalCard.vue'
 import ButtonBig from '@/components/ui/buttons/ButtonBig.vue'
