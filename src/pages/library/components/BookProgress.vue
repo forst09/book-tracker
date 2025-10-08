@@ -38,6 +38,11 @@ const updateProgress = async () => {
     isProgressLoading.value = true
     progressError.value = null
 
+    if (progressInput.value < 0 || progressInput.value > 100) {
+      progressError.value = 'Прогресс должен быть от 0 до 100'
+      return
+    }
+
     const { error } = await supabase
       .from('books')
       .update({ bookProgress: progressInput.value })
