@@ -77,7 +77,7 @@ router.beforeEach(async (to) => {
       name: 'login'
     }
   }
-  if (authStore.isUserAuth && (to.name === 'login' || to.name === 'registration') && to.name !== 'index') {
+  if (authStore.isUserAuth && (to.name === 'login' || to.name === 'registration')) {
     return {
       name: 'index'
     }
