@@ -16,7 +16,7 @@ const authStore = useAuthStore()
 const route = useRoute()
 const bookId = route.params.id
 const isBooksLoading = ref(true)
-const book = reactive({})
+const book = ref(null)
 
 const getBook = async () => {
   try {
@@ -24,7 +24,13 @@ const getBook = async () => {
 
     const { data, error } = await supabase.from('books').select('*').eq('id', bookId)
 
-    Object.assign(book, data[0])
+    if (data && data.length > 0) {
+      book.value = data[0]
+    }
+
+    if (error) {
+      book.value = null
+    }
   } catch (error) {
     console.log(error)
   } finally {
@@ -35,7 +41,7 @@ const getBook = async () => {
 getBook()
 
 const setProgress = (value) => {
-  book.bookProgress = +value
+  book.value.bookProgress = +value
 }
 
 const isProgressLoading = ref(false)
@@ -55,7 +61,7 @@ const updateProgress = async (progressValue) => {
     progressError.value = error
 
     if (!error) {
-      book.bookProgress = progressValue
+      book.value.bookProgress = progressValue
 
       await authStore.getCurrentBooks()
       await authStore.getBooksCount()
@@ -94,7 +100,7 @@ const deleteBook = async () => {
       <Transition name="opacity">
         <LoaderDefault v-if="isBooksLoading || isProgressLoading" />
       </Transition>
-      <div v-if="!isBooksLoading && Object.keys(book).length > 0">
+      <div v-if="!isBooksLoading && book">
         <BookIntro
           :book-author="book.bookAuthor"
           :book-cover="book.bookCover"
@@ -124,7 +130,7 @@ const deleteBook = async () => {
           <BookNotes :initial-note="book.bookNotes" />
         </div>
       </div>
-      <h2 v-if="!isBooksLoading && Object.keys(book).length === 0">Книга не найдена</h2>
+      <h2 v-if="!isBooksLoading && !book">Книга не найдена</h2>
     </div>
   </section>
 </template>
