@@ -5,11 +5,11 @@ import Logout from '@/assets/icons/logout.svg'
 const props = defineProps({
   userName: {
     type: String,
-    required: true,
+    required: false,
   },
   userEmail: {
     type: String,
-    required: true,
+    required: false,
   },
 })
 
