@@ -9,6 +9,7 @@ import BookCard from '@/components/cards/BookCard.vue'
 import BookStatus from '@/components/aside/BookStatus.vue'
 import { useAuthStore } from '@/stores/authStore'
 import FilterInput from '@/components/form/FilterInput.vue'
+import { watchDebounced } from '@vueuse/core'
 
 const router = useRouter()
 
@@ -119,9 +120,13 @@ const applyFilter = async () => {
   }
 }
 
-watch(filterParams, () => {
-  applyFilter()
-})
+watchDebounced(
+  filterParams,
+  () => {
+    applyFilter()
+  },
+  { debounce: 500 },
+)
 </script>
 
 <template>
