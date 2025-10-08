@@ -25,13 +25,22 @@ const goal = computed(() => {
 const isGoalLoading = ref(false)
 
 const setNewGoal = async () => {
-  isGoalLoading.value = true
-  goalError.value = null
+  try {
+    isGoalLoading.value = true
+    goalError.value = null
 
-  const { error } = await authStore.updateUserGoal(+inputGoal.value)
-  goalError.value = error
+    if (inputGoal.value < 1) {
+      goalError.value = 'Цель должна быть больше нуля'
+      return
+    }
 
-  isGoalLoading.value = false
+    const { error } = await authStore.updateUserGoal(+inputGoal.value)
+    goalError.value = error
+  } catch (error) {
+    goalError.value = error
+  } finally {
+    isGoalLoading.value = false
+  }
 }
 
 const bookWordForms = ['книгу', 'книги', 'книг']
