@@ -127,7 +127,7 @@ export const useAuthStore = defineStore('user', () => {
         currentUser.readingBooks = 0
         currentUser.plannedBooks = 0
         currentUser.libraryCount = 0
-
+        currentBooks.value = []
     }
 
     const updateUserGoal = async (goalCount) => {

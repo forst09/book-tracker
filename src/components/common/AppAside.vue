@@ -24,7 +24,7 @@ async function signOut() {
   if (!error) {
     authStore.clearUser()
 
-    router.push({ name: 'login' })
+    router.go(0)
   }
 }
 
