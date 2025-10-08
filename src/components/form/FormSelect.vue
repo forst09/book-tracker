@@ -15,6 +15,11 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  isSelectRequired: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 })
 
 const emits = defineEmits(['update:modelValue'])
@@ -33,6 +38,7 @@ const selectChange = (e) => {
     <div :class="$style['select-wrap']">
       <select
         :id="props.selectId"
+        :required="props.isSelectRequired"
         :class="[$style.select, isValueSelected && $style.selected]"
         @change="selectChange"
       >
@@ -41,7 +47,7 @@ const selectChange = (e) => {
           :selected="index === 0"
           :disabled="index === 0"
           :key="item.id"
-          :value="item.name"
+          :value="index === 0 ? '' : item.name"
           :class="$style.select__option"
         >
           {{ item.name }}

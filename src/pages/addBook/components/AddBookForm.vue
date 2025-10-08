@@ -158,9 +158,10 @@ const addBook = async () => {
     />
     <FormSelect
       v-model="bookGenre"
-      :label-text="'Жанр'"
+      :label-text="'Жанр *'"
       :select-id="'genre'"
       :select-options="genres"
+      :is-select-required="true"
     />
     <FileUpload
       :is-file-exist="isFileExist"
