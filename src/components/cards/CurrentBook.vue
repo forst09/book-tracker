@@ -29,7 +29,7 @@ const props = defineProps({
 <template>
   <div :class="$style.book">
     <div :class="['img', 'img--contain', $style.book__img]">
-      <img :src="props.imgSrc" alt="Обложка книги" />
+      <img :src="props.imgSrc" :alt="`Обложка книги ${props.bookName}`" />
     </div>
     <div :class="$style.book__content">
       <div :class="$style.book__head">

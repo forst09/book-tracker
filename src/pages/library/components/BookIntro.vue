@@ -35,7 +35,7 @@ const bookCover = computed(() => {
 <template>
   <div :class="$style.intro">
     <div :class="['img', 'img--cover', $style.intro__cover]">
-      <img :src="bookCover" alt="Обложка книги" class="img__img" />
+      <img :src="bookCover" :alt="`Обложка книги ${props.bookName}`" class="img__img" />
     </div>
     <div :class="$style.intro__info">
       <h2 :class="$style.intro__title">{{ props.bookName }}</h2>
