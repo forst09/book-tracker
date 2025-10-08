@@ -31,12 +31,8 @@ onMounted(async () => {
 })
 
 const getGenres = async () => {
-  console.log('loading genres')
   const { data: hehe, error } = await supabase.from('genres').select('*').order('name')
 
-  console.log(hehe, error)
-
-  console.log('finish genres')
   genres.value.push(...hehe)
 }
 
@@ -77,7 +73,6 @@ const addBook = async () => {
   try {
     fileError.value = null
     isLoading.value = true
-    console.log(coverUrl.value, coverFile.value)
     const cover = coverUrl.value || coverFile.value
     let coverPath = null
 
@@ -94,9 +89,6 @@ const addBook = async () => {
       } else {
         fileError.value = error
       }
-
-      console.log(data)
-      console.log(error)
     }
 
     // load book
@@ -121,9 +113,6 @@ const addBook = async () => {
     if (error) {
       fileError.value = error
     }
-
-    console.log(data)
-    console.log(error)
   } catch (error) {
     fileError.value = error
     console.error('error from add book', error)

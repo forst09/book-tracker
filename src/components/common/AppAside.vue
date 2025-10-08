@@ -23,13 +23,11 @@ const route = useRoute()
 
 async function signOut() {
   const { error } = await supabase.auth.signOut()
-  console.log('sign out error', error, !error)
   if (!error) {
     authStore.clearUser()
 
     router.push({ name: 'login' })
   }
-  console.log(router)
 }
 
 // navigation links

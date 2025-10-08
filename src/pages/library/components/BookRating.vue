@@ -16,7 +16,6 @@ const props = defineProps({
 
 const route = useRoute()
 const id = +route.params.id
-console.log(id)
 
 const rating = ref(props.bookRating || 0)
 
@@ -42,12 +41,8 @@ const setRating = async () => {
       .select()
 
     ratingError.value = error
-
-    console.log(data)
-    console.log(error)
   } catch (error) {
     ratingError.value = error
-    console.error(error)
   } finally {
     isRatingLoading.value = false
   }

@@ -54,12 +54,8 @@ const updateProgress = async () => {
 
       await authStore.getBooksCount()
     }
-
-    console.log(data)
-    console.log(error)
   } catch (error) {
     progressError.value = error
-    console.error(error)
   } finally {
     isProgressLoading.value = false
   }

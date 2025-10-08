@@ -45,12 +45,8 @@ const updateNote = async () => {
       note.value = noteTextarea.value ? noteTextarea.value : 'Вы еще не оставляли заметок'
       changeNoteMode('read')
     }
-
-    console.log(data)
-    console.log(error)
   } catch (error) {
     noteError.value = error
-    console.error(error)
   } finally {
     isNoteLoading.value = false
   }
@@ -73,7 +69,6 @@ const updateNote = async () => {
           v-model="noteTextarea"
           placeholder="Введите заметку"
           :class="$style.note__textarea"
-          @change="console.log('hehe')"
         ></textarea>
         <span v-if="noteError" :class="$style.note__error">{{ noteError }}</span>
         <div :class="$style.note__actions">

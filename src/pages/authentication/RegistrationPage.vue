@@ -103,8 +103,6 @@ const signUpNewUser = async (name, email, password) => {
       },
     })
 
-    console.log(data)
-    console.log(error)
     if (error) {
       supabaseError.value = error.message
     } else {

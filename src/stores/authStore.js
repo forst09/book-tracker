@@ -18,10 +18,6 @@ export const useAuthStore = defineStore('user', () => {
         return currentUser.id !== undefined
     })
 
-    watch(isUserAuth, () => {
-        console.log('watch auth', isUserAuth.value)
-    })
-
     const isUserLoading = ref(false);
 
     const currentBooks = ref([]);
@@ -37,7 +33,6 @@ export const useAuthStore = defineStore('user', () => {
 
             if (!error) {
                 currentBooks.value = data
-                console.log('curr', data)
             }
         } catch (error) {
             console.error(error)
@@ -68,9 +63,6 @@ export const useAuthStore = defineStore('user', () => {
             else {
                 clearUser()
             }
-
-            console.log('user', user)
-            console.log('cur user', currentUser)
         } catch (error) {
             console.error('error from user', error)
         }
@@ -87,8 +79,6 @@ export const useAuthStore = defineStore('user', () => {
         if (!error) {
             updateUserBooksCount(data[0].count_finished, data[0].count_in_progress, data[0].count_not_started)
         }
-        console.log('books', data)
-        console.log(error)
     }
 
     const updateUserBooksCount = async (finished, reading, planned) => {
@@ -102,8 +92,6 @@ export const useAuthStore = defineStore('user', () => {
                 libraryCount: total
             }
         });
-
-        console.log('update user', data)
 
         if (!error) {
             currentUser.finishedBooks = finished
@@ -147,7 +135,6 @@ export const useAuthStore = defineStore('user', () => {
             if (!error) {
                 currentUser.booksGoal = goalCount
             }
-            console.log('update goal', data)
 
             return { data, error }
         }

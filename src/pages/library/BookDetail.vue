@@ -25,8 +25,6 @@ const getBook = async () => {
     const { data, error } = await supabase.from('books').select('*').eq('id', bookId)
 
     Object.assign(book, data[0])
-    console.log(book)
-    console.log(error)
   } catch (error) {
     console.log(error)
   } finally {
@@ -62,12 +60,8 @@ const updateProgress = async (progressValue) => {
       await authStore.getCurrentBooks()
       await authStore.getBooksCount()
     }
-
-    console.log(data)
-    console.log(error)
   } catch (error) {
     progressError.value = error
-    console.error(error)
   } finally {
     isProgressLoading.value = false
   }

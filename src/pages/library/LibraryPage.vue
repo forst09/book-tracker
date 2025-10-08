@@ -30,7 +30,6 @@ const getBooks = async () => {
       .eq('userId', authStore.currentUser.id)
     books.value.push(...data)
     booksInitialCount.value = books.value.length
-    console.log('books', data)
 
     booksError.value = error
   } catch (error) {
@@ -110,7 +109,6 @@ const applyFilter = async () => {
 
     const { data, error } = await query
 
-    console.log('data', data)
     if (!error) {
       books.value = data
     }
