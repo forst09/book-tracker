@@ -11,12 +11,12 @@ app.use(pinia)
 
 const authStore = useAuthStore();
 
-try {
-    authStore.setUserError(null)
-    await authStore.getCurrentUser()
-} catch (error) {
-    authStore.setUserError(error)
-}
+// try {
+//     authStore.setUserError(null)
+await authStore.getCurrentUser()
+// } catch (error) {
+//     authStore.setUserError(error)
+// }
 
 app.use(router)
 

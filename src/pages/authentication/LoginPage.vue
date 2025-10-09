@@ -75,6 +75,8 @@ const signInUser = async (email, password) => {
 
       authStore.setUserData(data.user.id, data.user.user_metadata, data.user.email)
 
+      await authStore.getCurrentUser()
+
       router.push({ name: 'index' })
     }
   } catch (error) {

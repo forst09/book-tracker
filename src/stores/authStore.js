@@ -49,10 +49,10 @@ export const useAuthStore = defineStore('user', () => {
         isUserLoading.value = true
         try {
             const {
-                data: { user },
+                data
             } = await supabase.auth.getUser()
-
-            if (user) {
+            if (data.user) {
+                const user = data.user
                 currentUser.id = user.id
                 currentUser.email = user.email
                 currentUser.name = user.user_metadata.name
@@ -61,9 +61,7 @@ export const useAuthStore = defineStore('user', () => {
                     currentUser.readingBooks = user.user_metadata.readingBooks,
                     currentUser.plannedBooks = user.user_metadata.plannedBooks,
                     currentUser.libraryCount = currentUser.finishedBooks + currentUser.plannedBooks + currentUser.readingBooks
-
                 await getBooksCount()
-
                 await getCurrentBooks()
             }
             else {
