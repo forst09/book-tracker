@@ -28,8 +28,8 @@ const props = defineProps({
 
 <template>
   <div :class="$style.book">
-    <div :class="['img', 'img--contain', $style.book__img]">
-      <img :src="props.imgSrc" :alt="`Обложка книги ${props.bookName}`" />
+    <div :class="['img', 'img--cover', $style.book__img]">
+      <img :src="props.imgSrc" :alt="`Обложка книги ${props.bookName}`" class="img__img" />
     </div>
     <div :class="$style.book__content">
       <div :class="$style.book__head">
